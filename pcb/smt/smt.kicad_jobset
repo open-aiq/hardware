@@ -1,0 +1,295 @@
+{
+  "jobs": [
+    {
+      "description": "ERC",
+      "id": "c4127bd0-7b0b-44e5-8928-489d3d0f5ed6",
+      "settings": {
+        "description": "ERC",
+        "fail_on_error": true,
+        "format": "report",
+        "output_filename": "smt-erc.rpt",
+        "severity": 48,
+        "units": "mm"
+      },
+      "type": "sch_erc"
+    },
+    {
+      "description": "DRC with schematic parity",
+      "id": "67462739-4f83-4eb1-a520-e17f64095abd",
+      "settings": {
+        "description": "DRC with schematic parity",
+        "fail_on_error": true,
+        "format": "report",
+        "output_filename": "smt-drc.rpt",
+        "parity": true,
+        "report_all_track_errors": false,
+        "severity": 48,
+        "units": "mm"
+      },
+      "type": "pcb_drc"
+    },
+    {
+      "description": "Schematic PDF",
+      "id": "27f7e403-11c8-4433-94c8-6281ec8a5a27",
+      "settings": {
+        "description": "Schematic PDF",
+        "black_and_white": false,
+        "color_theme": "",
+        "drawing_sheet": "",
+        "format": "pdf",
+        "min_pen_width": 847,
+        "output_dir": "./",
+        "page_size": "auto",
+        "pdf_hierarchical_links": true,
+        "pdf_metadata": true,
+        "pdf_property_popups": true,
+        "plot_all": true,
+        "plot_drawing_sheet": true,
+        "use_background_color": false
+      },
+      "type": "sch_export_plot_pdf"
+    },
+    {
+      "description": "Assembly drawing (every reference designator)",
+      "id": "b651b511-a99f-4270-8922-bf001c3c26cf",
+      "settings": {
+        "description": "Assembly drawing (every reference designator)",
+        "back_fp_property_popups": false,
+        "black_and_white": true,
+        "color_theme": "",
+        "crossout_dnp_footprints_on_fab_layers": true,
+        "drawing_sheet": "",
+        "drill_shape": "none",
+        "front_fp_property_popups": false,
+        "hide_dnp_footprints_on_fab_layers": false,
+        "layers": [
+          "F.Fab"
+        ],
+        "layers_to_include_on_all_layers": [
+          "Edge.Cuts"
+        ],
+        "mirror": false,
+        "negative": false,
+        "output_filename": "smt-assembly.pdf",
+        "pdf_gen_mode": "all-layers-one-file",
+        "pdf_metadata": true,
+        "plot_drawing_sheet": true,
+        "plot_footprint_values": false,
+        "plot_pad_numbers": false,
+        "plot_ref_des": true,
+        "single_document": true,
+        "sketch_dnp_footprints_on_fab_layers": true,
+        "sketch_pads_on_fab_layers": true,
+        "subtract_solder_mask_from_silk": false,
+        "use_drill_origin": false
+      },
+      "type": "pcb_export_pdf"
+    },
+    {
+      "description": "Gerbers",
+      "id": "84d78a0e-7ec4-43ce-ad6a-5632485b390d",
+      "settings": {
+        "description": "Gerbers",
+        "black_and_white": true,
+        "create_gerber_job_file": true,
+        "crossout_dnp_footprints_on_fab_layers": false,
+        "disable_aperture_macros": false,
+        "drawing_sheet": "",
+        "drill_shape": "full",
+        "hide_dnp_footprints_on_fab_layers": false,
+        "include_netlist_attributes": false,
+        "layers": [
+          "F.Cu",
+          "B.Cu",
+          "F.Paste",
+          "B.Paste",
+          "F.SilkS",
+          "B.SilkS",
+          "F.Mask",
+          "B.Mask",
+          "Edge.Cuts"
+        ],
+        "layers_to_include_on_all_layers": [],
+        "mirror": false,
+        "negative": false,
+        "output_filename": "gerbers/",
+        "plot_drawing_sheet": false,
+        "plot_footprint_values": false,
+        "plot_pad_numbers": false,
+        "plot_ref_des": true,
+        "precision": 6,
+        "sketch_dnp_footprints_on_fab_layers": false,
+        "sketch_pads_on_fab_layers": false,
+        "subtract_solder_mask_from_silk": true,
+        "use_drill_origin": false,
+        "use_protel_file_extension": true,
+        "use_x2_format": false
+      },
+      "type": "pcb_export_gerbers"
+    },
+    {
+      "description": "Drill files (Excellon)",
+      "id": "10598f3c-2b3d-451f-8bd1-9e071459cbc2",
+      "settings": {
+        "description": "Drill files (Excellon)",
+        "drill_origin": "abs",
+        "excellon.combine_pth_npth": false,
+        "excellon.minimal_header": false,
+        "excellon.mirror_y": false,
+        "excellon.oval_drill_route": false,
+        "format": "excellon",
+        "generate_map": true,
+        "gerber_precision": 6,
+        "map_format": "gerberx2",
+        "output_dir": "gerbers/",
+        "units": "mm",
+        "zero_format": "decimal"
+      },
+      "type": "pcb_export_drill"
+    },
+    {
+      "description": "BOM",
+      "id": "d9c697b2-1168-4432-a507-a55013dbb843",
+      "settings": {
+        "description": "BOM",
+        "fields_group_by": [
+          "Value",
+          "Footprint"
+        ],
+        "fields_ordered": [
+          "Reference",
+          "Value",
+          "Footprint",
+          "${QUANTITY}",
+          "LCSC",
+          "Datasheet"
+        ],
+        "fields_labels": [
+          "Reference",
+          "Value",
+          "Footprint",
+          "Qty",
+          "LCSC",
+          "Datasheet"
+        ],
+        "output_filename": "smt-bom.csv",
+        "bom_format_preset_name": "CSV",
+        "bom_preset_name": "",
+        "exclude_dnp": true,
+        "field_delimiter": ",",
+        "filter_string": "",
+        "include_excluded_from_bom": false,
+        "keep_line_breaks": false,
+        "keep_tabs": false,
+        "ref_delimiter": ",",
+        "ref_range_delimiter": "",
+        "sort_asc": true,
+        "sort_field": "Reference",
+        "string_delimiter": "\""
+      },
+      "type": "sch_export_bom"
+    },
+    {
+      "description": "JLCPCB BOM",
+      "id": "34609315-6eee-460d-b6c6-70d824adf857",
+      "settings": {
+        "description": "JLCPCB BOM",
+        "fields_group_by": [
+          "Value",
+          "Footprint",
+          "LCSC"
+        ],
+        "fields_ordered": [
+          "Value",
+          "Reference",
+          "Footprint",
+          "LCSC"
+        ],
+        "fields_labels": [
+          "Comment",
+          "Designator",
+          "Footprint",
+          "LCSC Part #"
+        ],
+        "output_filename": "smt-jlc-bom.csv",
+        "bom_format_preset_name": "CSV",
+        "bom_preset_name": "",
+        "exclude_dnp": true,
+        "field_delimiter": ",",
+        "filter_string": "",
+        "include_excluded_from_bom": false,
+        "keep_line_breaks": false,
+        "keep_tabs": false,
+        "ref_delimiter": ",",
+        "ref_range_delimiter": "",
+        "sort_asc": true,
+        "sort_field": "Reference",
+        "string_delimiter": "\""
+      },
+      "type": "sch_export_bom"
+    },
+    {
+      "description": "Component placement (CPL)",
+      "id": "f75bf0df-6d66-4c8e-8fb8-86d3e2143859",
+      "settings": {
+        "description": "Component placement (CPL)",
+        "exclude_dnp": true,
+        "exclude_footprints_with_th": false,
+        "format": "csv",
+        "gerber_board_edge": false,
+        "negate_bottom_x": false,
+        "output_filename": "smt.csv",
+        "side": "both",
+        "single_file": true,
+        "smd_only": false,
+        "units": "mm",
+        "use_drill_place_file_origin": false
+      },
+      "type": "pcb_export_pos"
+    }
+  ],
+  "meta": {
+    "version": 1
+  },
+  "outputs": [
+    {
+      "description": "Checks (ERC and DRC reports)",
+      "id": "0dadc1cf-e71b-4676-8a8e-4b229df70ae7",
+      "only": [
+        "c4127bd0-7b0b-44e5-8928-489d3d0f5ed6",
+        "67462739-4f83-4eb1-a520-e17f64095abd"
+      ],
+      "settings": {
+        "output_path": "./checks"
+      },
+      "type": "folder"
+    },
+    {
+      "description": "Schematic and assembly PDFs",
+      "id": "73c44d9c-91e6-43f1-8505-484a43d8bbf8",
+      "only": [
+        "27f7e403-11c8-4433-94c8-6281ec8a5a27",
+        "b651b511-a99f-4270-8922-bf001c3c26cf"
+      ],
+      "settings": {
+        "output_path": "./"
+      },
+      "type": "folder"
+    },
+    {
+      "description": "Fabrication files",
+      "id": "4c10984c-41cd-402e-8cb4-59cc0ef50132",
+      "only": [
+        "84d78a0e-7ec4-43ce-ad6a-5632485b390d",
+        "10598f3c-2b3d-451f-8bd1-9e071459cbc2",
+        "d9c697b2-1168-4432-a507-a55013dbb843",
+        "34609315-6eee-460d-b6c6-70d824adf857",
+        "f75bf0df-6d66-4c8e-8fb8-86d3e2143859"
+      ],
+      "settings": {
+        "output_path": "./fab"
+      },
+      "type": "folder"
+    }
+  ]
+}
