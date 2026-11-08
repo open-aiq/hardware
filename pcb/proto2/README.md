@@ -29,7 +29,7 @@ in open-aiq/device, so the current firmware runs unchanged. SET and RESET are
 extras: their pull-ups keep the sensor running, and the firmware can use them
 later to rest the sensor between readings.
 
-The schematic is in [`proto2-schematic.pdf`](proto2-schematic.pdf).
+The schematic is in [`proto2.pdf`](proto2.pdf), and [`proto2-assembly.pdf`](proto2-assembly.pdf) shows where each part goes.
 
 ## Before you build
 
@@ -80,16 +80,15 @@ Every part is through-hole, so there's no pick-and-place file.
 
 ## Editing
 
-Open `proto2.kicad_pro` in KiCad 10. Shared symbols and footprints, including
-the devkit socket, live in [`lib/`](../../lib) at the top of this repo. The
-project's library tables find them with `${KIPRJMOD}`, so there's nothing to set
-up.
+Open `proto2.kicad_pro` in KiCad 10. The repo's [Working in KiCad](../../README.md#working-in-kicad)
+guide covers libraries, rules and outputs. The devkit socket footprint and the
+sensor symbols are ours, in [`lib/`](../../lib).
 
-After a change, regenerate the PDF, fab files and renders from the repo root:
+To refresh the outputs, run `proto2.kicad_jobset` in KiCad, or this from the repo
+root:
 
 ```sh
 scripts/export.sh pcb/proto2
 ```
 
-It runs ERC and DRC (with schematic parity) first, and stops if either finds an
-error.
+Both stop if ERC or DRC finds a problem.

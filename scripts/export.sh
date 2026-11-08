@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
-# Regenerate a board's outputs: schematic PDF, BOM, Gerbers + drill, and 3D renders.
-# Usage: scripts/export.sh pcb/proto2
-# Needs kicad-cli (KiCad 10). Set KICAD_CLI if it isn't on your PATH.
+# Regenerate a board's outputs from the command line. It runs the same KiCad jobset
+# (<board>.kicad_jobset) that you can run from KiCad's GUI, then adds what KiCad
+# can't make on its own: a zipped Gerber set, a JLCPCB-format placement file, and
+# 3D renders.
+#
+# Usage: scripts/export.sh pcb/<board>
+# Needs kicad-cli (KiCad 10); set KICAD_CLI if it isn't on your PATH.
+# RENDER_ZOOM sets the render camera zoom (default 0.95).
 set -euo pipefail
 
 dir="${1:?usage: scripts/export.sh pcb/<board>}"
@@ -9,25 +14,33 @@ name="$(basename "$dir")"
 cli="${KICAD_CLI:-kicad-cli}"
 cd "$dir"
 
-"$cli" sch erc --severity-error --exit-code-violations -o /dev/null "$name.kicad_sch"
-"$cli" pcb drc --schematic-parity --refill-zones --severity-error --exit-code-violations -o /dev/null "$name.kicad_pcb"
+# Stop early if the design isn't clean
+"$cli" sch erc --severity-all --exit-code-violations -o /dev/null "$name.kicad_sch"
+"$cli" pcb drc --schematic-parity --refill-zones --severity-all --exit-code-violations -o /dev/null "$name.kicad_pcb"
 
-"$cli" sch export pdf -o "$name-schematic.pdf" "$name.kicad_sch"
+rm -rf fab checks
+"$cli" jobset run --stop-on-error -f "$name.kicad_jobset" "$name.kicad_pro"
 
-rm -rf fab && mkdir -p fab/gerbers
-"$cli" sch export bom --fields 'Reference,Value,Footprint,${QUANTITY},LCSC,Datasheet' \
-  --labels 'Reference,Value,Footprint,Qty,LCSC,Datasheet' --group-by Value,Footprint \
-  --exclude-dnp -o "fab/$name-bom.csv" "$name.kicad_sch"
-"$cli" pcb export gerbers --layers F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts \
-  --subtract-soldermask --no-x2 --no-netlist -o fab/gerbers/ "$name.kicad_pcb"
-"$cli" pcb export drill --format excellon --excellon-separate-th --generate-map --map-format gerberx2 \
-  -o fab/gerbers/ "$name.kicad_pcb"
 (cd fab/gerbers && zip -q "../$name-gerbers.zip" ./*)
 
-mkdir -p renders
-render() { "$cli" pcb render --quality high --floor --background opaque -w 1800 -h 1200 "$@" "$name.kicad_pcb" >/dev/null; }
-render --perspective --rotate '-40,0,25' --zoom 0.9 -o "renders/$name-iso.png"
-render --zoom 0.95 -o "renders/$name-top.png"
-render --side bottom --zoom 0.95 -o "renders/$name-bottom.png"
+# JLCPCB wants its own placement (CPL) column names
+pos="$(ls fab/*pos*.csv 2>/dev/null | head -1 || true)"
+if [ -n "$pos" ]; then
+  python3 - "$pos" "fab/$name-jlc-cpl.csv" <<'PY'
+import csv, sys
+src, dst = sys.argv[1], sys.argv[2]
+with open(src) as f, open(dst, "w", newline="") as o:
+    w = csv.writer(o); w.writerow(["Designator", "Mid X", "Mid Y", "Layer", "Rotation"])
+    for r in csv.DictReader(f):
+        w.writerow([r["Ref"], f'{r["PosX"]}mm', f'{r["PosY"]}mm', "Top" if r["Side"] == "top" else "Bottom", r["Rot"]])
+PY
+fi
 
-echo "Exported $name: schematic PDF, fab/, renders/"
+mkdir -p renders
+zoom="${RENDER_ZOOM:-0.95}"
+render() { "$cli" pcb render --quality high --floor --background opaque -w 1800 -h 1200 "$@" "$name.kicad_pcb" >/dev/null; }
+render --perspective --rotate '-40,0,25' --zoom "$zoom" -o "renders/$name-iso.png"
+render --zoom "$zoom" -o "renders/$name-top.png"
+render --side bottom --zoom "$zoom" -o "renders/$name-bottom.png"
+
+echo "Exported $name: $name.pdf, $name-assembly.pdf, fab/, renders/"
