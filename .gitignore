@@ -11,3 +11,6 @@ _autosave-*
 .mcp-backups/
 
 .DS_Store
+
+# Jobset check reports (regenerated on every export)
+checks/
