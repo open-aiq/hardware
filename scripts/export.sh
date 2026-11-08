@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Regenerate a board's outputs: schematic PDF, BOM, Gerbers + drill, and 3D renders.
+# Regenerate a board's outputs: schematic PDF, BOM, Gerbers + drill, JLCPCB BOM/CPL (if the
+# schematic has LCSC numbers), and 3D renders. RENDER_ZOOM sets the camera zoom.
 # Usage: scripts/export.sh pcb/proto2
 # Needs kicad-cli (KiCad 10). Set KICAD_CLI if it isn't on your PATH.
 set -euo pipefail
@@ -24,10 +25,29 @@ rm -rf fab && mkdir -p fab/gerbers
   -o fab/gerbers/ "$name.kicad_pcb"
 (cd fab/gerbers && zip -q "../$name-gerbers.zip" ./*)
 
+# Assembly files for boards with LCSC part numbers (JLCPCB's BOM and CPL formats)
+if grep -q '"LCSC"' "$name.kicad_sch"; then
+  "$cli" pcb export pos --format csv --units mm --side both --exclude-dnp -o "fab/$name-pos.csv" "$name.kicad_pcb"
+  python3 - "$name" <<'PY'
+import csv, sys
+name = sys.argv[1]
+with open(f"fab/{name}-bom.csv") as f, open(f"fab/{name}-jlc-bom.csv", "w", newline="") as o:
+    w = csv.writer(o); w.writerow(["Comment", "Designator", "Footprint", "LCSC Part #"])
+    for r in csv.DictReader(f):
+        if r["LCSC"]:
+            w.writerow([r["Value"], r["Reference"], r["Footprint"].split(":")[-1], r["LCSC"]])
+with open(f"fab/{name}-pos.csv") as f, open(f"fab/{name}-jlc-cpl.csv", "w", newline="") as o:
+    w = csv.writer(o); w.writerow(["Designator", "Mid X", "Mid Y", "Layer", "Rotation"])
+    for r in csv.DictReader(f):
+        w.writerow([r["Ref"], f'{r["PosX"]}mm', f'{r["PosY"]}mm', "Top" if r["Side"] == "top" else "Bottom", r["Rot"]])
+PY
+fi
+
 mkdir -p renders
+zoom="${RENDER_ZOOM:-0.95}"
 render() { "$cli" pcb render --quality high --floor --background opaque -w 1800 -h 1200 "$@" "$name.kicad_pcb" >/dev/null; }
-render --perspective --rotate '-40,0,25' --zoom 0.9 -o "renders/$name-iso.png"
-render --zoom 0.95 -o "renders/$name-top.png"
-render --side bottom --zoom 0.95 -o "renders/$name-bottom.png"
+render --perspective --rotate '-40,0,25' --zoom "$zoom" -o "renders/$name-iso.png"
+render --zoom "$zoom" -o "renders/$name-top.png"
+render --side bottom --zoom "$zoom" -o "renders/$name-bottom.png"
 
 echo "Exported $name: schematic PDF, fab/, renders/"
