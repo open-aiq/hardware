@@ -14,3 +14,6 @@ _autosave-*
 
 # Jobset check reports (regenerated on every export)
 checks/
+
+# KiCad local history
+.history/
