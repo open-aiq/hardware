@@ -7,7 +7,7 @@
 	(title_block
 		(title "Open AIQ Proto2: devkit carrier")
 		(date "2026-11-08")
-		(rev "A")
+		(rev "B")
 		(company "Open AIQ")
 		(comment 1 "Carrier PCB for an ESP32-S3-DevKitC-1 (or pin-compatible clone)")
 		(comment 2 "GPIO map follows open-aiq/device src/board.rs")
@@ -2030,7 +2030,7 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
+			(property "Footprint" "open-aiq:SHT30_Module_Socket_4+2"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -2052,7 +2052,7 @@
 					)
 				)
 			)
-			(property "Description" "SHT30 temperature/humidity breakout, pin order VIN GND SCL SDA."
+			(property "Description" "SHT30 temperature/humidity breakout with 6 pins: VIN GND SCL SDA on one edge, and 2 pins on the opposite edge (usually ADDR and ALERT) that we leave unconnected."
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -2142,6 +2142,42 @@
 						)
 					)
 					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -10.16 2.54 0)
+					(length 5.08)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -10.16 -2.54 0)
+					(length 5.08)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2570,9 +2606,42 @@
 		)
 		(uuid "44e43857-7df0-4a45-88f8-a290d8e2b74f")
 	)
+	(text "SW3 Pair (GPIO 7) starts BLE pairing. Firmware support is still to come."
+		(exclude_from_sim no)
+		(at 88.9 43.18 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "1f9aee49-0aab-4bbc-8e70-60f7a9f900d3")
+	)
+	(text "The OLED plugs into J2 face-up\nand lies flat over the board."
+		(exclude_from_sim no)
+		(at 25.4 160.02 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "46ec9fd7-98fa-41f9-899c-2dc28d8e9c9d")
+	)
+	(text "J3: the SHT30's 2 extra pins sit in\na 1x2 socket, for support only."
+		(exclude_from_sim no)
+		(at 25.4 170.18 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d6aa5c49-35a4-4078-8345-2b09e33ba28f")
+	)
 	(text "Buttons"
 		(exclude_from_sim no)
-		(at 99.06 58.42 0)
+		(at 88.9 58.42 0)
 		(effects
 			(font
 				(size 1.5 1.5)
@@ -2683,10 +2752,6 @@
 		(uuid "1ea6351e-32bc-476b-9a00-b853bc4b6e1b")
 	)
 	(no_connect
-		(at 134.62 88.9)
-		(uuid "24145423-ab92-461a-b702-3453a358f93d")
-	)
-	(no_connect
 		(at 134.62 124.46)
 		(uuid "246afb0f-b90c-4a34-b9d4-c01d8f443ec3")
 	)
@@ -2709,14 +2774,6 @@
 	(no_connect
 		(at 170.18 106.68)
 		(uuid "37f3b524-f91f-425c-9abd-a6be91861d88")
-	)
-	(no_connect
-		(at 134.62 106.68)
-		(uuid "47e00b61-bba0-4de0-b688-63c7faacfb09")
-	)
-	(no_connect
-		(at 134.62 91.44)
-		(uuid "518d2c4f-1fbc-4aca-be69-3d80bc1d6e36")
 	)
 	(no_connect
 		(at 170.18 109.22)
@@ -2784,7 +2841,7 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 111.76) (xy 121.92 111.76)
+			(xy 124.46 111.76) (xy 121.92 111.76)
 		)
 		(stroke
 			(width 0)
@@ -2854,7 +2911,7 @@
 	)
 	(wire
 		(pts
-			(xy 109.22 101.6) (xy 134.62 101.6)
+			(xy 109.22 101.6) (xy 119.38 101.6)
 		)
 		(stroke
 			(width 0)
@@ -2944,7 +3001,7 @@
 	)
 	(wire
 		(pts
-			(xy 129.54 83.82) (xy 129.54 63.5)
+			(xy 129.54 78.74) (xy 129.54 63.5)
 		)
 		(stroke
 			(width 0)
@@ -2964,7 +3021,7 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 104.14) (xy 119.38 104.14)
+			(xy 124.46 104.14) (xy 119.38 104.14)
 		)
 		(stroke
 			(width 0)
@@ -2994,17 +3051,7 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 83.82) (xy 129.54 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c2347204-e84f-4991-a7ec-25a5d02893ae")
-	)
-	(wire
-		(pts
-			(xy 116.84 96.52) (xy 134.62 96.52)
+			(xy 116.84 96.52) (xy 119.38 96.52)
 		)
 		(stroke
 			(width 0)
@@ -3034,16 +3081,6 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 86.36) (xy 121.92 86.36)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d37624d7-fa29-4bde-b2fd-efb3913cdb68")
-	)
-	(wire
-		(pts
 			(xy 109.22 93.98) (xy 111.76 93.98)
 		)
 		(stroke
@@ -3054,7 +3091,7 @@
 	)
 	(wire
 		(pts
-			(xy 109.22 99.06) (xy 134.62 99.06)
+			(xy 109.22 99.06) (xy 119.38 99.06)
 		)
 		(stroke
 			(width 0)
@@ -3104,13 +3141,111 @@
 	)
 	(wire
 		(pts
-			(xy 111.76 93.98) (xy 134.62 93.98)
+			(xy 111.76 93.98) (xy 119.38 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "fe53bcb6-b5ec-493f-ba87-a5491be55163")
+	)
+	(no_connect
+		(at 134.62 106.68)
+		(uuid "0f42ff6b-12ea-48fc-b95a-f6488aac12bb")
+	)
+	(no_connect
+		(at 134.62 111.76)
+		(uuid "bea329d2-bf2e-42f7-ba0c-8601b83041c3")
+	)
+	(label "SCL"
+		(at 134.62 83.82 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "9acb726c-5a9f-475b-a962-0c41022fe075")
+	)
+	(label "SDA"
+		(at 134.62 86.36 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "5c37d71c-8573-43b9-857d-a280bb69ccd1")
+	)
+	(label "BTN_LEFT"
+		(at 134.62 88.9 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "46b87f7c-30bd-4088-b457-7036a7d513eb")
+	)
+	(label "BTN_PAIR"
+		(at 134.62 91.44 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "2dca9407-fad4-43f6-ba90-f71265077e64")
+	)
+	(label "BTN_RIGHT"
+		(at 134.62 93.98 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "5ece43cd-1296-4c4c-b299-8253e0bb20eb")
+	)
+	(label "PMS_RESET"
+		(at 134.62 96.52 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "0eadff31-7546-465a-8cf6-210f06124402")
+	)
+	(label "ESP_RX"
+		(at 134.62 99.06 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "15171c81-bc10-4911-ae5c-353f0f513bd9")
+	)
+	(label "ESP_TX"
+		(at 134.62 101.6 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "9577e37a-bb70-4f81-b816-6bee43f41ba5")
+	)
+	(label "PMS_SET"
+		(at 134.62 104.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "f094701b-6874-48e8-8935-ec037db725db")
 	)
 	(label "ESP_TX"
 		(at 119.38 99.06 0)
@@ -3143,7 +3278,7 @@
 		(uuid "8a7c0cac-2cb7-4f96-acf4-4b3921de329b")
 	)
 	(label "BTN_RIGHT"
-		(at 129.54 83.82 90)
+		(at 129.54 78.74 90)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3171,6 +3306,26 @@
 			(justify left bottom)
 		)
 		(uuid "eb6361a1-1894-4a3a-9749-c57028be4803")
+	)
+	(wire
+		(pts
+			(xy 106.68 63.5) (xy 106.68 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "536f33c4-047b-428e-95f8-5b961452e570")
+	)
+	(label "BTN_PAIR"
+		(at 106.68 76.2 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "7ff2ada9-33d7-43f2-a973-05a8c1a970bd")
 	)
 	(label "BTN_LEFT"
 		(at 121.92 86.36 90)
@@ -3610,7 +3765,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
+		(property "Footprint" "open-aiq:SHT30_Module_Socket_4+2"
 			(at 93.98 160.02 0)
 			(hide yes)
 			(show_name no)
@@ -3632,7 +3787,18 @@
 				)
 			)
 		)
-		(property "Description" "SHT30 temperature/humidity breakout, pin order VIN GND SCL SDA."
+		(property "Description" "SHT30 temperature and humidity breakout with 6 pins: VIN GND SCL SDA on one edge, and 2 pins on the opposite edge (usually ADDR and ALERT) that we leave unconnected."
+			(at 93.98 160.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "1×4 + 1×2 female header, 2.54 mm, for an SHT30 breakout (4 + 2 pins)"
 			(at 93.98 160.02 0)
 			(hide yes)
 			(show_name no)
@@ -3654,6 +3820,12 @@
 		)
 		(pin "4"
 			(uuid "cdbf7fae-4771-486a-a588-fd328b5092d1")
+		)
+		(pin "5"
+			(uuid "6d2c9198-bdbc-4395-879b-796da80a7be8")
+		)
+		(pin "6"
+			(uuid "395458e2-42f1-44ef-8fec-7b5db8bdc3da")
 		)
 		(instances
 			(project "proto2"
@@ -3794,7 +3966,18 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole without connection"
+		(property "Description" "M3 mounting hole."
+			(at 30.48 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "M3 mounting hole"
 			(at 30.48 142.24 0)
 			(hide yes)
 			(show_name no)
@@ -3944,7 +4127,18 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole without connection"
+		(property "Description" "M3 mounting hole."
+			(at 50.8 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "M3 mounting hole"
 			(at 50.8 142.24 0)
 			(hide yes)
 			(show_name no)
@@ -4173,7 +4367,18 @@
 				)
 			)
 		)
-		(property "Description" "Plantower PMS5003 particulate sensor, 8-pin 1.25 mm cable. 5 V supply, 3.3 V logic."
+		(property "Description" "PMS5003 particulate sensor cable connector."
+			(at 96.52 99.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "Molex PicoBlade 53047-0810, 8-pin 1.25 mm vertical header"
 			(at 96.52 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -4349,7 +4554,18 @@
 				)
 			)
 		)
-		(property "Description" "Polarized capacitor"
+		(property "Description" "Bulk capacitor on 5 V."
+			(at 30.48 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "100 µF electrolytic, ≥10 V, 6.3 mm radial, 2.5 mm pitch"
 			(at 30.48 109.22 0)
 			(hide yes)
 			(show_name no)
@@ -4430,7 +4646,18 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Decoupling on 3.3 V."
+			(at 63.5 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "100 nF ceramic, 5 mm pitch"
 			(at 63.5 109.22 0)
 			(hide yes)
 			(show_name no)
@@ -4586,7 +4813,18 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Pull-up that keeps the PMS5003 out of reset."
+			(at 111.76 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "10 kΩ resistor, 1/4 W axial"
 			(at 111.76 90.17 0)
 			(hide yes)
 			(show_name no)
@@ -4744,7 +4982,18 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "Decoupling on 5 V."
+			(at 40.64 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "100 nF ceramic, 5 mm pitch"
 			(at 40.64 109.22 0)
 			(hide yes)
 			(show_name no)
@@ -4823,7 +5072,18 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole without connection"
+		(property "Description" "M3 mounting hole."
+			(at 40.64 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "M3 mounting hole"
 			(at 40.64 142.24 0)
 			(hide yes)
 			(show_name no)
@@ -4897,7 +5157,18 @@
 				)
 			)
 		)
-		(property "Description" "Push button switch, generic, two pins"
+		(property "Description" "Left button. 6 × 6 mm through-hole tactile switch, 4 legs, top press. Each pair of legs on one side is joined inside the switch."
+			(at 121.92 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "6×6 mm THT tactile switch, 4-leg (e.g. Omron B3F-1000)"
 			(at 121.92 66.04 0)
 			(hide yes)
 			(show_name no)
@@ -5130,7 +5401,18 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole without connection"
+		(property "Description" "M3 mounting hole."
+			(at 60.96 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "M3 mounting hole"
 			(at 60.96 142.24 0)
 			(hide yes)
 			(show_name no)
@@ -5359,7 +5641,18 @@
 				)
 			)
 		)
-		(property "Description" "Polarized capacitor"
+		(property "Description" "Bulk capacitor on 3.3 V."
+			(at 53.34 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "10 µF electrolytic, ≥10 V, 5 mm radial, 2 mm pitch"
 			(at 53.34 109.22 0)
 			(hide yes)
 			(show_name no)
@@ -5440,7 +5733,18 @@
 				)
 			)
 		)
-		(property "Description" "1.3 in SH1106/SSD1306 I2C OLED module, pin order GND VCC SCL SDA. Check your module: some swap GND and VCC."
+		(property "Description" "1.3 in SH1106 128×64 I2C OLED module. It plugs in face-up and lies flat over the keep-out marked OLED. Pin order GND VCC SCL SDA; some modules swap GND and VCC, so check yours."
+			(at 93.98 132.08 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "1×4 female header, 2.54 mm, for a 1.3 in SH1106 128×64 I2C OLED module"
 			(at 93.98 132.08 0)
 			(hide yes)
 			(show_name no)
@@ -5602,7 +5906,18 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "I2C SDA pull-up to 3.3 V."
+			(at 115.57 114.3 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "4.7 kΩ resistor, 1/4 W axial"
 			(at 115.57 114.3 0)
 			(hide yes)
 			(show_name no)
@@ -5758,7 +6073,18 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Pull-up that keeps the PMS5003 awake (SET high)."
+			(at 116.84 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "10 kΩ resistor, 1/4 W axial"
 			(at 116.84 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -5991,7 +6317,18 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "I2C SCL pull-up to 3.3 V."
+			(at 125.73 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "4.7 kΩ resistor, 1/4 W axial"
 			(at 125.73 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -6225,7 +6562,18 @@
 				)
 			)
 		)
-		(property "Description" "Push button switch, generic, two pins"
+		(property "Description" "Right button. 6 × 6 mm through-hole tactile switch, 4 legs, top press. Each pair of legs on one side is joined inside the switch."
+			(at 129.54 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "6×6 mm THT tactile switch, 4-leg (e.g. Omron B3F-1000)"
 			(at 129.54 66.04 0)
 			(hide yes)
 			(show_name no)
@@ -6483,6 +6831,174 @@
 		)
 	)
 	(symbol
+		(lib_id "Switch:SW_Push")
+		(at 106.68 58.42 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "100ed805-e017-40da-bbbe-22c3c68a6d07")
+		(property "Reference" "SW3"
+			(at 102.87 57.15 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Pair"
+			(at 102.235 59.69 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Button_Switch_THT:SW_PUSH_6mm"
+			(at 111.76 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 111.76 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Pair button: starts BLE pairing with the phone app (firmware support to come). 6 × 6 mm through-hole tactile switch, 4 legs, top press. Each pair of legs on one side is joined inside the switch."
+			(at 106.68 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "6×6 mm THT tactile switch, 4-leg (e.g. Omron B3F-1000)"
+			(at 106.68 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "60081d6e-356d-485b-8871-3efd4ce1e0ac")
+		)
+		(pin "2"
+			(uuid "57d413f8-8bd1-448c-bd18-680ac7c73ccf")
+		)
+		(instances
+			(project "proto2"
+				(path "/062711e6-3bc6-4d9a-b97d-c5347e537863"
+					(reference "SW3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 106.68 53.34 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9e78c302-2b96-44d4-aae7-d6646d58bfcb")
+		(property "Reference" "#PWR26"
+			(at 106.68 53.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 106.68 49.53 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 106.68 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 106.68 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 106.68 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "cc794d18-de47-43ef-85a3-d6476e80ed54")
+		)
+		(instances
+			(project "proto2"
+				(path "/062711e6-3bc6-4d9a-b97d-c5347e537863"
+					(reference "#PWR26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "open-aiq:ESP32-S3-DevKitC-1")
 		(at 152.4 101.6 0)
 		(unit 1)
@@ -6537,7 +7053,18 @@
 				)
 			)
 		)
-		(property "Description" "ESP32-S3-DevKitC-1 (or pin-compatible clone) on two 1x22 sockets, rows 25.4 mm apart. GPIO35-37 are taken by octal PSRAM on R8 modules."
+		(property "Description" "ESP32-S3-DevKitC-1 (or a pin-compatible clone) on two 1×22 sockets, USB facing the bottom edge."
+			(at 152.4 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "2 × 1×22 female header, 2.54 mm, 25.4 mm apart, for an ESP32-S3-DevKitC-1"
 			(at 152.4 101.6 0)
 			(hide yes)
 			(show_name no)

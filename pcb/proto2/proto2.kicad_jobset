@@ -99,14 +99,9 @@
         "hide_dnp_footprints_on_fab_layers": false,
         "include_netlist_attributes": false,
         "layers": [
-          "F.Cu",
           "B.Cu",
-          "F.Paste",
-          "B.Paste",
-          "F.SilkS",
-          "B.SilkS",
-          "F.Mask",
           "B.Mask",
+          "F.SilkS",
           "Edge.Cuts"
         ],
         "layers_to_include_on_all_layers": [],
@@ -154,11 +149,13 @@
         "description": "BOM",
         "fields_group_by": [
           "Value",
+          "Part",
           "Footprint"
         ],
         "fields_ordered": [
           "Reference",
           "Value",
+          "Part",
           "Footprint",
           "${QUANTITY}",
           "Datasheet"
@@ -166,6 +163,7 @@
         "fields_labels": [
           "Reference",
           "Value",
+          "Part",
           "Footprint",
           "Qty",
           "Datasheet"

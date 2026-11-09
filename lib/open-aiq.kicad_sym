@@ -1284,7 +1284,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
+		(property "Footprint" "open-aiq:SHT30_Module_Socket_4+2"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1306,7 +1306,7 @@
 				)
 			)
 		)
-		(property "Description" "SHT30 temperature/humidity breakout, pin order VIN GND SCL SDA."
+		(property "Description" "SHT30 temperature/humidity breakout with 6 pins: VIN GND SCL SDA on one edge, and 2 pins on the opposite edge (usually ADDR and ALERT) that we leave unconnected."
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1396,6 +1396,42 @@
 					)
 				)
 				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin no_connect line
+				(at -10.16 2.54 0)
+				(length 5.08)
+				(name "NC"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "5"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin no_connect line
+				(at -10.16 -2.54 0)
+				(length 5.08)
+				(name "NC"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "6"
 					(effects
 						(font
 							(size 1.27 1.27)
