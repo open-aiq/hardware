@@ -1,0 +1,19 @@
+# KiCad local state, caches and backups
+*.kicad_prl
+*-backups/
+fp-info-cache
+\#auto_saved_files\#
+_autosave-*
+*.lck
+~*.lck
+
+# KiCad MCP snapshots
+.mcp-backups/
+
+.DS_Store
+
+# Jobset check reports (regenerated on every export)
+checks/
+
+# KiCad local history
+.history/
