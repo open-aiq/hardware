@@ -1,6 +1,6 @@
 # Open AIQ hardware
 
-PCB designs (KiCad) and the 3D-printed enclosure for the Open AIQ air-quality monitor.
+PCB designs (KiCad) for the Open AIQ air-quality monitor.
 Firmware lives in [open-aiq/device](https://github.com/open-aiq/device); its
 [`src/board.rs`](https://github.com/open-aiq/device/blob/main/src/board.rs) is the source of truth for the GPIO map.
 
@@ -9,11 +9,15 @@ Firmware lives in [open-aiq/device](https://github.com/open-aiq/device); its
 | Path | Contents |
 | --- | --- |
 | `pcb/proto2/` | Prototype 2: carrier PCB for the ESP32-S3 devkit with sensor connectors |
-| `pcb/smt/` | SMT prototype with the ESP32-S3 module on board |
-| `pcb/smt-battery/` | SMT revision with battery, charger and power path |
-| `enclosure/` | 3D-printed body (source + STL), shared by the SMT and SMT+battery boards |
+| `lib/` | Our own symbols and footprints, shared by every board |
+| `scripts/` | `export.sh`, which builds a board's outputs from the command line |
 
-Each PCB folder holds the KiCad project, BOM, fabrication outputs (Gerbers, drill, pick-and-place) and a bring-up checklist.
+Each PCB folder holds the KiCad project, the schematic and assembly PDFs, and
+the fabrication outputs (Gerbers and BOM) under `fab/`. Its README
+covers the parts, the pin map and what to check before you build.
+
+Still to come: an SMT board with the ESP32-S3 module on it (in progress on the
+`smt` branch), a battery-powered revision, and a 3D-printed enclosure.
 
 ## Working in KiCad
 
@@ -26,7 +30,7 @@ as you would any other design.
   adapted, like the ESP32-S3 module with JLCPCB-sized vias, is saved there under
   its own name, so *Update footprints from library* keeps our changes.
 - **Rules live in the project.** Net classes (wider power tracks), clearances and
-  via sizes are set in *Board Setup*, so DRC is ready to go. Both boards open
+  via sizes are set in *Board Setup*, so DRC is ready to go. The board opens
   with zero ERC and DRC messages. If you see one, it's new.
 - **Outputs come from a jobset.** Open `<board>.kicad_jobset` from the project
   window (or *File → Jobsets*) and run it. It checks ERC and DRC, then writes the
