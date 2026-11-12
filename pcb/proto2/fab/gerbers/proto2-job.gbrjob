@@ -5,13 +5,13 @@
       "Application": "Pcbnew",
       "Version": "10.0.8"
     },
-    "CreationDate": "2026-11-09T10:42:11+05:00"
+    "CreationDate": "2026-11-12T12:24:37+05:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
       "Name": "proto2",
       "GUID": "70726f74-6f32-42e6-9b69-6361645f7063",
-      "Revision": "rev?"
+      "Revision": "C"
     },
     "Size": {
       "X": 142.05,

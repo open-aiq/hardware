@@ -1,5 +1,5 @@
 "Reference","Value","Part","Footprint","Qty","Datasheet"
-"C1","100uF","100 µF electrolytic, ≥10 V, 6.3 mm radial, 2.5 mm pitch","Capacitor_THT:CP_Radial_D6.3mm_P2.50mm","1",""
+"C1","47uF","47 µF electrolytic, ≥10 V, 6.3 mm radial, 2.5 mm pitch","Capacitor_THT:CP_Radial_D6.3mm_P2.50mm","1",""
 "C2,C4","100nF","100 nF ceramic, 5 mm pitch","Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm","2",""
 "C3","10uF","10 µF electrolytic, ≥10 V, 5 mm radial, 2 mm pitch","Capacitor_THT:CP_Radial_D5.0mm_P2.00mm","1",""
 "J1","PMS5003","Molex PicoBlade 53047-0810, 8-pin 1.25 mm vertical header","Connector_Molex:Molex_PicoBlade_53047-0810_1x08_P1.25mm_Vertical","1",""

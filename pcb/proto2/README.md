@@ -18,12 +18,12 @@ through-hole, so you can solder it by hand and get it made almost anywhere.
 | --- | --- | --- |
 | U1 | ESP32-S3-DevKitC-1, or a pin-compatible clone, on two 1×22 sockets 25.4 mm (1.0 in) apart | All signals are on the left header. USB faces the bottom edge |
 | J1 | PMS5003 particulate sensor, 8-pin 1.25 mm connector | 5 V, UART on GPIO 18 (ESP TX) / 17 (ESP RX), SET on GPIO 8, RESET on GPIO 16 |
-| J2 | 1.3 in SH1106 128×64 I2C OLED module, 4-pin socket | I2C, `SDA SCL VCC GND` from left to right. The module lies flat over the dashed OLED area |
+| J2 | 1.3 in SH1106 128×64 I2C OLED module, 4-pin socket | I2C, `GND VCC SCL SDA` from left to right, the order printed on the module's front. The module lies flat over the dashed OLED area |
 | J3 | SHT30 breakout with 6 pins, on a 1×4 and a 1×2 socket | I2C, `VIN GND SCL SDA`. The 2 pins on the far edge (usually ADDR and ALERT) are for support only |
 | SW1, SW2, SW3 | Right, left and pair buttons, 6 × 6 mm 4-leg tactile switches | GPIO 15, GPIO 6 and GPIO 7, active-low |
 | R1, R2 | 4.7 kΩ I2C pull-ups | SDA (GPIO 5), SCL (GPIO 4) to 3.3 V |
 | R3, R4 | 10 kΩ pull-ups | SET (R3) and RESET (R4), so the PMS5003 stays awake and out of reset unless the firmware says otherwise |
-| C1–C4 | Bulk and decoupling capacitors | 100 µF + 100 nF on 5 V, 10 µF + 100 nF on 3.3 V |
+| C1–C4 | Bulk and decoupling capacitors | 47 µF + 100 nF on 5 V, 10 µF + 100 nF on 3.3 V |
 
 The pins match [`src/board.rs`](https://github.com/open-aiq/device/blob/main/src/board.rs)
 in open-aiq/device. Rev B moved several pins so every trace fits on one side of
@@ -34,16 +34,31 @@ later:
 
 - **SW3 Pair (GPIO 7)** will start BLE pairing with the phone app. The firmware
   doesn't read it yet, so for now pressing it does nothing.
-- **SET and RESET** have pull-ups that keep the sensor running. Later the
-  firmware can drive them to rest the sensor between readings.
+- **SET and RESET** have pull-ups that keep the sensor running while the
+  devkit boots. The firmware drives SET low to rest the sensor between
+  readings; RESET isn't driven yet.
 
 The schematic is in [`proto2.pdf`](proto2.pdf), and [`proto2-assembly.pdf`](proto2-assembly.pdf) shows where each part goes.
+Wondering why a part is there, or why it has that value?
+[`proto2-rationale.pdf`](proto2-rationale.pdf) walks through every component and
+pin choice, with references to the datasheets.
+
+## Revisions
+
+- **Rev C** (this one) rotates the OLED socket so it reads `GND VCC SCL SDA`,
+  the order printed on the module. Rev B had it mirrored, which would have
+  swapped 3.3 V and ground. It also widens the ground tracks where there's
+  room and changes C1 from 100 µF to 47 µF. The pin map is the same as rev B.
+- **Rev B** made the board single-sided, added the pair button and moved to
+  today's pin map.
+- **Rev A** was the first, two-layer carrier.
 
 ## Before you build
 
-- **Check your OLED's pin order.** The socket reads `SDA SCL VCC GND` from left
-  to right, and the silkscreen says so too. Some modules swap GND and VCC, and
-  plugging one in backwards can damage it.
+- **Check your OLED's pin order.** The socket reads `GND VCC SCL SDA` from left
+  to right, and the silkscreen says so too. Hold your module face-up with its
+  pins along the top: its labels should read the same. Some modules swap GND
+  and VCC, and plugging one in backwards can damage it.
 - **Clone devkits need the 5 V pad bridged.** Many DevKitC-1 clones have an
   `IN-OUT` solder jumper next to the 5V pin. Until you bridge it, USB power
   doesn't reach that pin, and the PMS5003 stays dark. Once it's bridged, don't
@@ -62,6 +77,24 @@ The schematic is in [`proto2.pdf`](proto2.pdf), and [`proto2-assembly.pdf`](prot
   that end.
 - **R8 modules use GPIO 35, 36 and 37 for PSRAM.** Proto2 leaves them
   unconnected, so keep it that way if you add anything.
+- **The status LED is on the devkit.** The firmware drives both GPIO 48
+  (DevKitC-1 v1.0) and GPIO 38 (v1.1), so it lights on either. Proto2 leaves
+  both pins free.
+
+## First power-up
+
+A few quick checks before you trust the readings:
+
+1. **Check the PMS5003 cable with a multimeter first.** Pin 1 on the sensor
+   should reach pin 1 (5 V) on J1. Some 1.25 mm cables come wired in reverse.
+   That won't damage anything, but the sensor stays silent.
+2. **Measure 5 V at J1 pin 1 with the fan running.** The PMS5003 needs at least
+   4.5 V. A long or thin USB cable, plus the devkit's own power path, can pull
+   the 5V pin below what your charger supplies.
+3. **Read the serial log.** The I2C scan at boot should find `0x3C` (OLED) and
+   `0x44` (SHT30).
+4. **Look at the screen.** It should read upright with the pins at the top. If it
+   shows upside down, the firmware's display setup notes how to flip it.
 
 ## Parts
 
@@ -77,7 +110,7 @@ To buy them:
 | 3 | 6 × 6 mm through-hole tactile switch, 4-leg (for example Omron B3F-1000) | SW1, SW2, SW3 |
 | 2 | 4.7 kΩ resistor, 1/4 W axial | R1, R2 |
 | 2 | 10 kΩ resistor, 1/4 W axial | R3, R4 |
-| 1 | 100 µF electrolytic, ≥10 V, 6.3 mm radial, 2.5 mm pitch | C1 |
+| 1 | 47 µF electrolytic, ≥10 V, 6.3 mm radial, 2.5 mm pitch | C1 |
 | 1 | 10 µF electrolytic, ≥10 V, 5 mm radial, 2 mm pitch | C3 |
 | 2 | 100 nF ceramic, 5 mm pitch | C2, C4 |
 
@@ -91,7 +124,7 @@ haven't placed an order yet, so treat these settings as our first guess:
 | Setting | Value |
 | --- | --- |
 | Size | 142 × 63 mm |
-| Layers | 1 (copper on the bottom, parts on top). You can also order it as 2-layer for plated holes; the top side then has pads only |
+| Layers | Order it as 2-layer: you get plated holes, and the top side has pads only. The copper is all on the bottom, so a 1-layer order works too, but its holes aren't plated and the small PMS5003 connector pads lift easily when you solder them |
 | Thickness | 1.6 mm |
 | Min track / clearance | 0.3 / 0.25 mm (power 0.8 mm), so a track can pass between two 2.54 mm pins |
 | Min hole | 0.5 mm (PMS5003 connector pins); no vias |
@@ -119,3 +152,10 @@ scripts/export.sh pcb/proto2
 ```
 
 Both stop if ERC or DRC finds a problem.
+
+The design rationale is written in [Typst](https://typst.app). If you change a
+part, update `proto2-rationale.typ` too, then rebuild the PDF from this folder:
+
+```sh
+typst compile proto2-rationale.typ
+```

@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "Open AIQ Proto2: devkit carrier")
-		(date "2026-11-08")
-		(rev "B")
+		(date "2026-11-12")
+		(rev "C")
 		(company "Open AIQ")
 		(comment 1 "Carrier PCB for an ESP32-S3-DevKitC-1 (or pin-compatible clone)")
 		(comment 2 "GPIO map follows open-aiq/device src/board.rs")
@@ -2582,6 +2582,17 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "SW3 Pair (GPIO 7) starts BLE pairing. Firmware support is still to come."
+		(exclude_from_sim no)
+		(at 88.9 43.18 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "1f9aee49-0aab-4bbc-8e70-60f7a9f900d3")
+	)
 	(text "I2C: OLED 0x3C, SHT30 0x44"
 		(exclude_from_sim no)
 		(at 50.8 127 0)
@@ -2606,17 +2617,6 @@
 		)
 		(uuid "44e43857-7df0-4a45-88f8-a290d8e2b74f")
 	)
-	(text "SW3 Pair (GPIO 7) starts BLE pairing. Firmware support is still to come."
-		(exclude_from_sim no)
-		(at 88.9 43.18 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "1f9aee49-0aab-4bbc-8e70-60f7a9f900d3")
-	)
 	(text "The OLED plugs into J2 face-up\nand lies flat over the board."
 		(exclude_from_sim no)
 		(at 25.4 160.02 0)
@@ -2627,17 +2627,6 @@
 			(justify left bottom)
 		)
 		(uuid "46ec9fd7-98fa-41f9-899c-2dc28d8e9c9d")
-	)
-	(text "J3: the SHT30's 2 extra pins sit in\na 1x2 socket, for support only."
-		(exclude_from_sim no)
-		(at 25.4 170.18 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "d6aa5c49-35a4-4078-8345-2b09e33ba28f")
 	)
 	(text "Buttons"
 		(exclude_from_sim no)
@@ -2674,6 +2663,17 @@
 			(justify left bottom)
 		)
 		(uuid "d1fb5fb4-0b78-4a06-80ba-6c5ff6cfb645")
+	)
+	(text "J3: the SHT30's 2 extra pins sit in\na 1x2 socket, for support only."
+		(exclude_from_sim no)
+		(at 25.4 170.18 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d6aa5c49-35a4-4078-8345-2b09e33ba28f")
 	)
 	(text "Mounting (M3)"
 		(exclude_from_sim no)
@@ -2748,6 +2748,10 @@
 		(uuid "0d09f2b1-5393-48f7-b252-20a939730e30")
 	)
 	(no_connect
+		(at 134.62 106.68)
+		(uuid "0f42ff6b-12ea-48fc-b95a-f6488aac12bb")
+	)
+	(no_connect
 		(at 134.62 119.38)
 		(uuid "1ea6351e-32bc-476b-9a00-b853bc4b6e1b")
 	)
@@ -2810,6 +2814,10 @@
 	(no_connect
 		(at 170.18 81.28)
 		(uuid "b70b8d8c-56e5-4a0a-a780-244b3b7c4332")
+	)
+	(no_connect
+		(at 134.62 111.76)
+		(uuid "bea329d2-bf2e-42f7-ba0c-8601b83041c3")
 	)
 	(no_connect
 		(at 170.18 86.36)
@@ -2938,6 +2946,16 @@
 			(type default)
 		)
 		(uuid "4e238997-376b-4da5-8533-a2d8ade79043")
+	)
+	(wire
+		(pts
+			(xy 106.68 63.5) (xy 106.68 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "536f33c4-047b-428e-95f8-5b961452e570")
 	)
 	(wire
 		(pts
@@ -3149,64 +3167,6 @@
 		)
 		(uuid "fe53bcb6-b5ec-493f-ba87-a5491be55163")
 	)
-	(no_connect
-		(at 134.62 106.68)
-		(uuid "0f42ff6b-12ea-48fc-b95a-f6488aac12bb")
-	)
-	(no_connect
-		(at 134.62 111.76)
-		(uuid "bea329d2-bf2e-42f7-ba0c-8601b83041c3")
-	)
-	(label "SCL"
-		(at 134.62 83.82 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "9acb726c-5a9f-475b-a962-0c41022fe075")
-	)
-	(label "SDA"
-		(at 134.62 86.36 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "5c37d71c-8573-43b9-857d-a280bb69ccd1")
-	)
-	(label "BTN_LEFT"
-		(at 134.62 88.9 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "46b87f7c-30bd-4088-b457-7036a7d513eb")
-	)
-	(label "BTN_PAIR"
-		(at 134.62 91.44 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "2dca9407-fad4-43f6-ba90-f71265077e64")
-	)
-	(label "BTN_RIGHT"
-		(at 134.62 93.98 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "5ece43cd-1296-4c4c-b299-8253e0bb20eb")
-	)
 	(label "PMS_RESET"
 		(at 134.62 96.52 180)
 		(effects
@@ -3228,26 +3188,6 @@
 		(uuid "15171c81-bc10-4911-ae5c-353f0f513bd9")
 	)
 	(label "ESP_TX"
-		(at 134.62 101.6 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "9577e37a-bb70-4f81-b816-6bee43f41ba5")
-	)
-	(label "PMS_SET"
-		(at 134.62 104.14 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "f094701b-6874-48e8-8935-ec037db725db")
-	)
-	(label "ESP_TX"
 		(at 119.38 99.06 0)
 		(effects
 			(font
@@ -3256,6 +3196,46 @@
 			(justify left bottom)
 		)
 		(uuid "25ddefa2-157f-48f1-8070-cf1792cd813f")
+	)
+	(label "BTN_PAIR"
+		(at 134.62 91.44 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "2dca9407-fad4-43f6-ba90-f71265077e64")
+	)
+	(label "BTN_LEFT"
+		(at 134.62 88.9 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "46b87f7c-30bd-4088-b457-7036a7d513eb")
+	)
+	(label "SDA"
+		(at 134.62 86.36 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "5c37d71c-8573-43b9-857d-a280bb69ccd1")
+	)
+	(label "BTN_RIGHT"
+		(at 134.62 93.98 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "5ece43cd-1296-4c4c-b299-8253e0bb20eb")
 	)
 	(label "PMS_RESET"
 		(at 119.38 93.98 0)
@@ -3267,6 +3247,16 @@
 		)
 		(uuid "6e658824-6d73-4ad8-82a2-17f713fb77a5")
 	)
+	(label "BTN_PAIR"
+		(at 106.68 76.2 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "7ff2ada9-33d7-43f2-a973-05a8c1a970bd")
+	)
 	(label "ESP_RX"
 		(at 119.38 101.6 0)
 		(effects
@@ -3276,6 +3266,26 @@
 			(justify left bottom)
 		)
 		(uuid "8a7c0cac-2cb7-4f96-acf4-4b3921de329b")
+	)
+	(label "ESP_TX"
+		(at 134.62 101.6 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "9577e37a-bb70-4f81-b816-6bee43f41ba5")
+	)
+	(label "SCL"
+		(at 134.62 83.82 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "9acb726c-5a9f-475b-a962-0c41022fe075")
 	)
 	(label "BTN_RIGHT"
 		(at 129.54 78.74 90)
@@ -3307,26 +3317,6 @@
 		)
 		(uuid "eb6361a1-1894-4a3a-9749-c57028be4803")
 	)
-	(wire
-		(pts
-			(xy 106.68 63.5) (xy 106.68 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "536f33c4-047b-428e-95f8-5b961452e570")
-	)
-	(label "BTN_PAIR"
-		(at 106.68 76.2 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "7ff2ada9-33d7-43f2-a973-05a8c1a970bd")
-	)
 	(label "BTN_LEFT"
 		(at 121.92 86.36 90)
 		(effects
@@ -3336,6 +3326,16 @@
 			(justify left bottom)
 		)
 		(uuid "ecf81471-94fd-4adb-afa7-c6bd84629d37")
+	)
+	(label "PMS_SET"
+		(at 134.62 104.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "f094701b-6874-48e8-8935-ec037db725db")
 	)
 	(label "PMS_SET"
 		(at 119.38 96.52 0)
@@ -3573,6 +3573,97 @@
 			(project "proto2"
 				(path "/062711e6-3bc6-4d9a-b97d-c5347e537863"
 					(reference "#PWR19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Switch:SW_Push")
+		(at 106.68 58.42 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "100ed805-e017-40da-bbbe-22c3c68a6d07")
+		(property "Reference" "SW3"
+			(at 102.87 57.15 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Pair"
+			(at 102.235 59.69 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Button_Switch_THT:SW_PUSH_6mm"
+			(at 111.76 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 111.76 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Pair button: starts BLE pairing with the phone app (firmware support to come). 6 × 6 mm through-hole tactile switch, 4 legs, top press. Each pair of legs on one side is joined inside the switch."
+			(at 106.68 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part" "6×6 mm THT tactile switch, 4-leg (e.g. Omron B3F-1000)"
+			(at 106.68 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "60081d6e-356d-485b-8871-3efd4ce1e0ac")
+		)
+		(pin "2"
+			(uuid "57d413f8-8bd1-448c-bd18-680ac7c73ccf")
+		)
+		(instances
+			(project "proto2"
+				(path "/062711e6-3bc6-4d9a-b97d-c5347e537863"
+					(reference "SW3")
 					(unit 1)
 				)
 			)
@@ -4521,7 +4612,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100uF"
+		(property "Value" "47uF"
 			(at 35.56 110.49 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4565,7 +4656,7 @@
 				)
 			)
 		)
-		(property "Part" "100 µF electrolytic, ≥10 V, 6.3 mm radial, 2.5 mm pitch"
+		(property "Part" "47 µF electrolytic, ≥10 V, 6.3 mm radial, 2.5 mm pitch"
 			(at 30.48 109.22 0)
 			(hide yes)
 			(show_name no)
@@ -5427,6 +5518,83 @@
 			(project "proto2"
 				(path "/062711e6-3bc6-4d9a-b97d-c5347e537863"
 					(reference "H4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 106.68 53.34 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9e78c302-2b96-44d4-aae7-d6646d58bfcb")
+		(property "Reference" "#PWR26"
+			(at 106.68 53.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 106.68 49.53 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 106.68 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 106.68 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 106.68 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "cc794d18-de47-43ef-85a3-d6476e80ed54")
+		)
+		(instances
+			(project "proto2"
+				(path "/062711e6-3bc6-4d9a-b97d-c5347e537863"
+					(reference "#PWR26")
 					(unit 1)
 				)
 			)
@@ -6825,174 +6993,6 @@
 			(project "proto2"
 				(path "/062711e6-3bc6-4d9a-b97d-c5347e537863"
 					(reference "#PWR10")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Switch:SW_Push")
-		(at 106.68 58.42 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "100ed805-e017-40da-bbbe-22c3c68a6d07")
-		(property "Reference" "SW3"
-			(at 102.87 57.15 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "Pair"
-			(at 102.235 59.69 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Button_Switch_THT:SW_PUSH_6mm"
-			(at 111.76 66.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 111.76 66.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Pair button: starts BLE pairing with the phone app (firmware support to come). 6 × 6 mm through-hole tactile switch, 4 legs, top press. Each pair of legs on one side is joined inside the switch."
-			(at 106.68 66.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Part" "6×6 mm THT tactile switch, 4-leg (e.g. Omron B3F-1000)"
-			(at 106.68 66.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "60081d6e-356d-485b-8871-3efd4ce1e0ac")
-		)
-		(pin "2"
-			(uuid "57d413f8-8bd1-448c-bd18-680ac7c73ccf")
-		)
-		(instances
-			(project "proto2"
-				(path "/062711e6-3bc6-4d9a-b97d-c5347e537863"
-					(reference "SW3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 106.68 53.34 180)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "9e78c302-2b96-44d4-aae7-d6646d58bfcb")
-		(property "Reference" "#PWR26"
-			(at 106.68 53.34 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 106.68 49.53 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 106.68 60.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 106.68 60.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 106.68 60.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "cc794d18-de47-43ef-85a3-d6476e80ed54")
-		)
-		(instances
-			(project "proto2"
-				(path "/062711e6-3bc6-4d9a-b97d-c5347e537863"
-					(reference "#PWR26")
 					(unit 1)
 				)
 			)
