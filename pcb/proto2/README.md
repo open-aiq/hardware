@@ -39,8 +39,9 @@ later:
   readings; RESET isn't driven yet.
 
 Everything to print is in [`proto2.pdf`](proto2.pdf): the schematic, where each
-part goes, the top (silkscreen and pads) and the bottom copper, mirrored as
-you'd see it from below. Every page is A4, and the board pages are 1:1. Print
+part goes, the top (silkscreen and pads), the bottom copper (mirrored, as you'd
+see it from below) and the 3D renders. Every page is A4, and the board drawings
+are 1:1. Print
 at 100% ("Actual size", not "Fit to page") and the board outline measures
 142 × 63 mm, so you can lay your parts on the paper to check the fit before you
 order.
