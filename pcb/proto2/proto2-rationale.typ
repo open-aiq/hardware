@@ -1,4 +1,4 @@
-// Proto2 rev E: design rationale.
+// Proto2 rev F: design rationale.
 // Build from this folder with:  typst compile proto2-rationale.typ
 // Fonts are Typst's bundled ones, so it builds the same anywhere.
 
@@ -10,7 +10,7 @@
 #let wood = rgb("#c9a77c")
 
 #set document(
-  title: "Proto2 rev E: design rationale",
+  title: "Proto2 rev F: design rationale",
   author: "Open AIQ",
   keywords: ("Open AIQ", "Proto2", "ESP32-S3", "PMS5003", "SHT30", "SH1106"),
 )
@@ -20,7 +20,7 @@
   numbering: "1",
   footer: context [
     #set text(size: 8pt, fill: sage)
-    Open AIQ · Proto2 rev E · Design rationale
+    Open AIQ · Proto2 rev F · Design rationale
     #h(1fr)
     #counter(page).display("1 / 1", both: true)
   ],
@@ -160,7 +160,7 @@
   #set par(justify: false)
   #text(size: 9pt, fill: sage, tracking: 0.08em)[OPEN AIQ · HARDWARE]
   #v(0.15em)
-  #text(size: 24pt, weight: "bold", fill: ink)[Proto2 rev E: design rationale]
+  #text(size: 24pt, weight: "bold", fill: ink)[Proto2 rev F: design rationale]
   #v(0.1em)
   #text(size: 12pt, fill: accent)[Why each part and pin is on the carrier board, and why it works]
   #v(0.4em)
@@ -176,7 +176,7 @@ This document goes through the board one part at a time. For each part you'll fi
 
 #figure(
   image("renders/proto2-top.png", width: 100%),
-  caption: [Proto2 rev E from the top. The devkit plugs into the two long sockets on the right, with its antenna past the top edge.],
+  caption: [Proto2 rev F from the top. The devkit plugs into the two long sockets on the right, with its antenna past the top edge.],
 )
 
 = Pin choices
@@ -224,6 +224,7 @@ The ESP32-S3's #kw("matrix")[GPIO matrix] lets a UART, I²C or RMT peripheral us
 + *R4, 10 kΩ pull-up on RESET (GPIO 16).* Low resets the sensor #rc("pms", "Pin Definition"). The firmware doesn't drive it yet, so R4 keeps the sensor out of reset; the wire is there for later. The current arithmetic is the same as for R3.
 + *Warm-up.* After the sensor wakes, its readings need at least 30 seconds to settle #rc("pms", "Circuit Attentions 4"). The firmware discards frames for those first 30 s (`PMS_WARM_UP_MS`).
 + *Placement.* The sensor lies on a marked bed with its vents facing the top edge, away from the devkit's warmth. No top-side copper runs under its metal case.
++ *Mounting.* The sensor's base has four holes for M2 self-tapping screws on a 45 × 33 mm rectangle, centred on the 50 × 38 mm case #rc("pms", "Outline drawing"). The bed has four 2.2 mm holes on the same pattern, so you can screw the sensor down from below. The bottom copper keeps 2.5 mm clear of each hole's centre, so a screw head can't touch a track or the ground fill.
 
 == OLED screen (J2)
 
@@ -238,7 +239,7 @@ The ESP32-S3's #kw("matrix")[GPIO matrix] lets a UART, I²C or RMT peripheral us
 + *Address.* It answers at 0x44 with ADDR low and 0x45 with ADDR high #rc("sht", "§3.4, Table 8"). The breakout sets ADDR, and the firmware accepts either.
 + *Its own decoupling.* Sensirion asks for a 100 nF capacitor as close to the sensor as possible #rc("sht", "§3.1"). That belongs on the breakout, right beside the chip; C3 and C4 on Proto2 don't replace it.
 + *Away from heat.* Heat from nearby parts makes the sensor read warm, so Sensirion recommends #kw("thermal")[thermal decoupling] from all heat sources #rc("sht-guide", "Heating"). J3 sits in the bottom middle of the board, 44 mm from the devkit.
-+ *Support pins.* Many breakouts have two more pins on the far edge, usually ADDR and ALERT. A 1×2 socket only holds them steady; they aren't connected. The datasheet says an unused ALERT must be left floating #rc("sht", "Table 7").
++ *Support pins.* Many breakouts have two more pins on the far edge, usually ADDR and ALERT. A 1×2 socket 10.16 mm from the main row, opposite SCL and SDA, only holds them steady; they aren't connected. We measured that spacing on a breadboard: the rows sit 4 holes apart. The datasheet says an unused ALERT must be left floating #rc("sht", "Table 7").
 
 == I²C pull-ups (R1, R2)
 
@@ -247,7 +248,7 @@ The ESP32-S3's #kw("matrix")[GPIO matrix] lets a UART, I²C or RMT peripheral us
   $ R_p (min) = (V_"CC" - V_"OL")/I_"OL" = (3.3 - 0.4) "V" / (3 "mA") approx 967 Omega $
 + *The highest value allowed.* In 400 kHz Fast-mode, the #kw("rise")[rise time] must stay under 300 ns #rc("ti", "Table 2-1, Eq. 6"):
   $ R_p (max) = t_r / (0.8473 times C_b) $
-  We estimate Proto2's #kw("cb")[bus capacitance] generously at 60 pF: about 21 cm of track (SCL 206 mm, SDA 211 mm) and three devices with their module wiring. That gives $R_p (max) approx 300 "ns" \/ (0.8473 times 60 "pF") approx 5.9 "k" Omega$, well within the 400 pF limit #rc("sht", "Table 21").
+  We estimate Proto2's #kw("cb")[bus capacitance] generously at 60 pF: about 21 cm of track (SCL 205 mm, SDA 200 mm) and three devices with their module wiring. That gives $R_p (max) approx 300 "ns" \/ (0.8473 times 60 "pF") approx 5.9 "k" Omega$, well within the 400 pF limit #rc("sht", "Table 21").
 + *Footprint.* R1 and R2 use a 7.62 mm pitch, a little shorter than the other resistors, so they line up with the devkit's pins and every I²C track keeps its full width. A standard 1/4 W resistor fits with its legs bent closer to the body.
 + *Why 4.7 kΩ.* It sits between those bounds, with a rise time of about $0.8473 times 4.7 "k" Omega times 60 "pF" approx 240 "ns"$ #rc("ti", "Eq. 5"). Most OLED and SHT30 breakouts carry their own pull-ups, which end up in parallel with R1 and R2. Two 10 kΩ breakout pull-ups bring the total to about 2.4 kΩ; even the worst case of two more 4.7 kΩ resistors gives 1.57 kΩ, still above 967 Ω. If you add a third I²C module, check that the combined value stays above that floor.
 
@@ -266,10 +267,10 @@ The ESP32-S3's #kw("matrix")[GPIO matrix] lets a UART, I²C or RMT peripheral us
 = The board and its routing
 
 + *One copper layer.* All tracks are on the bottom and every part is through-hole, so any fab can make it and you can solder it with a basic iron. Even so, we suggest ordering it as a 2-layer board. That gives you #kw("pth")[plated through-holes], which hold their pads much better when you solder and resolder the sockets.
-+ *Track width and clearance.* Every signal track is 0.8 mm wide and every power track 1.5 mm, with at least 0.4 mm between copper of different nets. No track squeezes between two header pins, so nothing narrows anywhere. A #kw("netclass")[net class] sets these widths for each group of nets, and the board's minimums (0.8 mm track, 0.4 mm clearance) stop a later edit from going thinner. Wide tracks and gaps are kinder to hand soldering and home etching.
-+ *Plenty of current headroom.* With 35 µm copper on an outer layer and a 10 °C temperature rise, the curve fit for the IPC chart #rc("ipc", "§6.2, Fig. 6-4") gives about 3.2 A for a 1.5 mm track and 2.0 A for 0.8 mm. Proto2's biggest load is the particle sensor at up to 100 mA #rc("pms", "Technical Index").
++ *Track width and clearance.* Every signal track is 1.0 mm wide and every power track 1.5 mm, with at least 0.4 mm between copper of different nets. No track squeezes between two header pins, so nothing narrows anywhere. A #kw("netclass")[net class] sets these widths for each group of nets, and the board's minimums (1.0 mm track, 0.4 mm clearance) stop a later edit from going thinner. Wide tracks and gaps are kinder to hand soldering and home etching.
++ *Plenty of current headroom.* With 35 µm copper on an outer layer and a 10 °C temperature rise, the curve fit for the IPC chart #rc("ipc", "§6.2, Fig. 6-4") gives about 3.2 A for a 1.5 mm track and 2.4 A for 1.0 mm. Proto2's biggest load is the particle sensor at up to 100 mA #rc("pms", "Technical Index").
 + *Ground.* A #kw("fill")[ground fill] covers the free bottom copper and reaches every ground pin, so there are no ground tracks at all. The fill keeps 0.8 mm from all other copper. The particle sensor's current returns through the fill from J1 to the devkit's ground pin, about 25 mm away, and C1's ground pad sits 7 mm from that pin. Its narrowest neck, beside R3, is about 1.3 mm wide. Even if all 25 mm were that narrow, the path would be about 9 mΩ, so 100 mA drops under 1 mV. (Copper resistivity 1.72 × 10#super[−8] Ω·m, 35 µm thick.)
-+ *Edges and holes.* Copper stays at least 0.5 mm from the board edge. The smallest hole is 0.8 mm, for the resistor and capacitor leads. Four M3 mounting holes sit 4 mm in from each corner.
++ *Edges and holes.* Copper stays at least 0.5 mm from the board edge. The smallest hole is 0.8 mm, for the resistor and capacitor leads. Four M3 mounting holes sit 4 mm in from each corner, and four M2 holes hold the PMS5003.
 + *Keep-outs.*
   - The strip under the antenna has no copper (§3.1).
   - The PMS5003 bed has no top-side copper under the sensor's metal case.

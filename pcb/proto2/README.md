@@ -19,7 +19,7 @@ through-hole, so you can solder it by hand and get it made almost anywhere.
 | U1 | ESP32-S3-DevKitC-1, or a pin-compatible clone, on two 1×22 sockets 25.4 mm (1.0 in) apart | All signals are on the left header. USB faces the bottom edge |
 | J1 | PMS5003 particulate sensor, through its 1.25 mm to 2.54 mm adapter board, on a 1×8 socket | `VCC GND SET RX TX RST NC NC`, the sensor's own order, printed on the board. 5 V, UART on GPIO 18 (ESP TX) / 17 (ESP RX), SET on GPIO 8, RESET on GPIO 16 |
 | J2 | 1.3 in SH1106 128×64 I2C OLED module, 4-pin socket | I2C, `GND VCC SCL SDA` from left to right, the order printed on the module's front. The module lies flat over the dashed OLED area |
-| J3 | SHT30 breakout with 6 pins, on a 1×4 and a 1×2 socket | I2C, `VIN GND SCL SDA`. The 2 pins on the far edge (usually ADDR and ALERT) are for support only |
+| J3 | SHT30 breakout with 6 pins, on a 1×4 and a 1×2 socket 10.16 mm apart | I2C, `VIN GND SCL SDA`. The 2 pins on the far edge sit opposite SCL and SDA and are for support only |
 | SW1, SW2, SW3 | Right, left and pair buttons, 6 × 6 mm 4-leg tactile switches | GPIO 15, GPIO 6 and GPIO 7, active-low |
 | R1, R2 | 4.7 kΩ I2C pull-ups | SDA (GPIO 5), SCL (GPIO 4) to 3.3 V |
 | R3, R4 | 10 kΩ pull-ups | SET (R3) and RESET (R4), so the PMS5003 stays awake and out of reset unless the firmware says otherwise |
@@ -51,7 +51,15 @@ pin choice, with references to the datasheets.
 
 ## Revisions
 
-- **Rev E** (this one) swaps the tiny 1.25 mm PMS5003 connector for a 1×8,
+- **Rev F** (this one) adds four M2 holes so you can screw the PMS5003 to
+  the board, on the sensor's own 45 × 33 mm hole pattern. It also fixes the
+  SHT30 socket: the 2-pin row now sits opposite SCL and SDA, 10.16 mm from
+  the 4-pin row, which is where the pins are on a real breakout (rev E had it
+  6.35 mm away, opposite GND and SCL). Signal tracks widen again, from 0.8 to
+  1.0 mm, with the I²C pair re-spaced to fit, and SDA now runs straight into
+  the OLED socket instead of looping over it. Two tracks moved to stay clear
+  of the screw heads. The pin map and the other parts match rev E.
+- **Rev E** swaps the tiny 1.25 mm PMS5003 connector for a 1×8,
   2.54 mm socket that takes the sensor's adapter board, with a clear area
   around it so the adapter can lie flat. Every track is wider and further
   apart: signals 0.8 mm, power 1.5 mm, at least 0.4 mm between them, and
@@ -85,18 +93,22 @@ pin choice, with references to the datasheets.
   feed 5 V into the pin while USB is plugged in.
 - **The OLED lies flat over its dashed area.** It plugs into J2 face-up and
   rests over that area, which is why nothing else is placed there.
-- **Measure your SHT30 before you order.** We set the gap between its two pin
-  rows to 6.35 mm from a photo. If yours differs, the 4-pin row still works, and
-  you can leave the 1×2 socket out.
+- **Check your SHT30 against the socket.** The 2-pin row sits 10.16 mm
+  (4 breadboard holes) from the 4-pin row, opposite SCL and SDA, as measured on
+  our breakout. If yours differs, the 4-pin row still works, and you can leave
+  the 1×2 socket out.
 - **The PMS5003 plugs in through its adapter board.** The sensor's cable goes
   into the adapter, and the adapter's 8 pins go into J1. It lies flat over the
   dashed area beside J1, on whichever side its pins come out. We sized that
   area from a photo (an adapter of about 22 × 10 mm), so measure yours first.
   Check that the adapter's pin labels match `VCC GND SET RX TX RST NC NC` on
   the board before you plug it in.
-- **The PMS5003 sits on the marked bed.** Stick it down with double-sided foam
-  tape, vents facing the top edge so it doesn't pull in warm air from the
-  devkit. Its case is metal, but there's no copper on top, so it can't short
+- **The PMS5003 sits on the marked bed.** Fix it with four M2 self-tapping
+  screws from below, through the holes in the bed's corners and into the
+  sensor's case, or stick it down with double-sided foam tape. Keep the vents
+  facing the top edge so it doesn't pull in warm air from the devkit. The
+  bottom copper stays clear around each hole, so a screw head can't touch a
+  track. Its case is metal, but there's no copper on top, so it can't short
   anything.
 - **The devkit's antenna hangs off the top edge.** That's on purpose: copper
   under an antenna weakens WiFi and BLE, so the ground fill also stops short of
@@ -140,6 +152,7 @@ To buy them:
 | 1 | 47 µF electrolytic, ≥10 V, 6.3 mm radial, 2.5 mm pitch | C1 |
 | 1 | 10 µF electrolytic, ≥10 V, 5 mm radial, 2 mm pitch | C3 |
 | 2 | 100 nF ceramic, 5 mm pitch | C2, C4 |
+| 4 | M2 self-tapping screw, pan head, about 5 mm long | Optional, to hold the PMS5003 (H5). Use one short enough not to reach inside the sensor |
 
 ## Ordering
 
@@ -153,8 +166,8 @@ haven't placed an order yet, so treat these settings as our first guess:
 | Size | 142 × 63 mm |
 | Layers | Order it as 2-layer: you get plated holes, and the top side has pads only. The copper is all on the bottom, so a 1-layer order or home etching works too; unplated pads just lift more easily if you resolder them |
 | Thickness | 1.6 mm |
-| Min track / clearance | 0.8 / 0.4 mm (power 1.5 mm), with 0.8 mm around the ground fill |
-| Min hole | 0.8 mm (resistor and capacitor leads); no vias |
+| Min track / clearance | 1.0 / 0.4 mm (power 1.5 mm), with 0.8 mm around the ground fill |
+| Min hole | 0.8 mm (resistor and capacitor leads), plus four 2.2 mm holes for the PMS5003 screws; no vias |
 | Surface finish | HASL is fine |
 
 Every part is through-hole, so there's no pick-and-place file.
@@ -164,7 +177,9 @@ Every part is through-hole, so there's no pick-and-place file.
 Open `proto2.kicad_pro` in KiCad 10. The repo's [Working in KiCad](../../README.md#working-in-kicad)
 guide covers libraries, rules and outputs. These are ours, in [`lib/`](../../lib):
 
-- the devkit, SHT30 and PMS5003 adapter socket footprints. The devkit socket marks its
+- the devkit, SHT30 and PMS5003 adapter socket footprints, and the PMS5003
+  mounting holes (a board-only footprint with a copper keep-out for each
+  screw head). The devkit socket marks its
   GND pins and its two 3V3 pins as joined inside the devkit (KiCad *jumper pad
   groups*), so they don't need tracks between them
 - the arrow and phone-with-Bluetooth icons under the buttons, which are

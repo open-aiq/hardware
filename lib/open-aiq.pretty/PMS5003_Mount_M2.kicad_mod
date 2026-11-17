@@ -1,0 +1,320 @@
+(footprint "PMS5003_Mount_M2"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "Four M2 holes for screwing a Plantower PMS5003 to the board from below, on its 45 x 33 mm hole pattern (Plantower PMS5003 manual v2.3, outline drawing: 4-M2 self-tapping holes). The origin is the centre of the 50 x 38 mm case. Each hole has a 2.5 mm radius keep-out on the bottom copper for the screw head.")
+	(tags "PMS5003 PMS7003 Plantower mounting hole M2")
+	(property "Reference" "REF**"
+		(at 0 -20.6 0)
+		(layer "F.Fab")
+		(uuid "68022d7b-dbe5-400e-ab84-8efc02c31a04")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Value" "PMS5003_Mount_M2"
+		(at 0 20.6 0)
+		(layer "F.Fab")
+		(uuid "64cf9ac8-ece5-4c99-b020-65971768f605")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "bc6ace66-ad15-4384-9e5f-fae3762e3534")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "26f9ed9f-7759-454c-8d02-eea75a99f8e8")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(attr board_only exclude_from_pos_files exclude_from_bom)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_circle
+		(center -22.5 -16.5)
+		(end -20.5 -16.5)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(fill no)
+		(layer "B.SilkS")
+		(uuid "8ad874cb-cc7d-402d-af45-8e0c31e59d16")
+	)
+	(fp_circle
+		(center -22.5 16.5)
+		(end -20.5 16.5)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(fill no)
+		(layer "B.SilkS")
+		(uuid "7b584234-86f0-48bd-a2bb-ec5ce78b3795")
+	)
+	(fp_circle
+		(center 22.5 -16.5)
+		(end 24.5 -16.5)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(fill no)
+		(layer "B.SilkS")
+		(uuid "53e5cb0d-cac6-465b-acc4-9fd0fefe6bac")
+	)
+	(fp_circle
+		(center 22.5 16.5)
+		(end 24.5 16.5)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(fill no)
+		(layer "B.SilkS")
+		(uuid "008b9625-233a-4bea-bf37-5db7501049ab")
+	)
+	(fp_circle
+		(center -22.5 -16.5)
+		(end -20 -16.5)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "bc1cbfbb-b09a-45c1-b008-c2f013b74e9c")
+	)
+	(fp_circle
+		(center -22.5 16.5)
+		(end -20 16.5)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "26f3c30f-e3e0-418e-b9ee-e5aa0118f897")
+	)
+	(fp_circle
+		(center 22.5 -16.5)
+		(end 25 -16.5)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "5844c5b9-2b46-4d5f-a5ec-bfff6752c083")
+	)
+	(fp_circle
+		(center 22.5 16.5)
+		(end 25 16.5)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "bb69a1f4-afbd-4a39-b41c-8f6a89b3e79c")
+	)
+	(fp_rect
+		(start -25 -19)
+		(end 25 19)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "142b17a4-4a78-4e6e-add0-c450bdc96fec")
+	)
+	(pad "" np_thru_hole circle
+		(at -22.5 -16.5)
+		(size 2.2 2.2)
+		(drill 2.2)
+		(layers "*.Cu" "*.Mask")
+		(uuid "8aa127b2-69c8-409f-ba86-b10fc93fa1a6")
+	)
+	(pad "" np_thru_hole circle
+		(at -22.5 16.5)
+		(size 2.2 2.2)
+		(drill 2.2)
+		(layers "*.Cu" "*.Mask")
+		(uuid "9f91a983-47d2-47c7-a4db-d552c5bb6bf2")
+	)
+	(pad "" np_thru_hole circle
+		(at 22.5 -16.5)
+		(size 2.2 2.2)
+		(drill 2.2)
+		(layers "*.Cu" "*.Mask")
+		(uuid "2499862a-9535-4a49-b26d-6fd0dd00f6b0")
+	)
+	(pad "" np_thru_hole circle
+		(at 22.5 16.5)
+		(size 2.2 2.2)
+		(drill 2.2)
+		(layers "*.Cu" "*.Mask")
+		(uuid "229044c3-df73-498b-b1a6-972d505363ce")
+	)
+	(zone
+		(layer "B.Cu")
+		(uuid "feb76e71-54bf-45b4-a041-431dd949e3d5")
+		(name "PMS5003 screw head")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy -20 -16.5) (xy -20.085185 -15.852952) (xy -20.334936 -15.25) (xy -20.732233 -14.732233) (xy -21.25 -14.334936)
+				(xy -21.852952 -14.085185) (xy -22.5 -14) (xy -23.147047 -14.085185) (xy -23.75 -14.334936) (xy -24.267766 -14.732233)
+				(xy -24.665063 -15.25) (xy -24.914814 -15.852952) (xy -25 -16.5) (xy -24.914814 -17.147047) (xy -24.665063 -17.75)
+				(xy -24.267766 -18.267766) (xy -23.75 -18.665063) (xy -23.147047 -18.914814) (xy -22.5 -19) (xy -21.852952 -18.914814)
+				(xy -21.25 -18.665063) (xy -20.732233 -18.267766) (xy -20.334936 -17.75) (xy -20.085185 -17.147047)
+			)
+		)
+	)
+	(zone
+		(layer "B.Cu")
+		(uuid "bfb4a278-b96e-4501-b9ef-7bfc48a7854f")
+		(name "PMS5003 screw head")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy -20 16.5) (xy -20.085185 17.147047) (xy -20.334936 17.75) (xy -20.732233 18.267766) (xy -21.25 18.665063)
+				(xy -21.852952 18.914814) (xy -22.5 19) (xy -23.147047 18.914814) (xy -23.75 18.665063) (xy -24.267766 18.267766)
+				(xy -24.665063 17.75) (xy -24.914814 17.147047) (xy -25 16.5) (xy -24.914814 15.852952) (xy -24.665063 15.25)
+				(xy -24.267766 14.732233) (xy -23.75 14.334936) (xy -23.147047 14.085185) (xy -22.5 14) (xy -21.852952 14.085185)
+				(xy -21.25 14.334936) (xy -20.732233 14.732233) (xy -20.334936 15.249999) (xy -20.085185 15.852952)
+			)
+		)
+	)
+	(zone
+		(layer "B.Cu")
+		(uuid "efef8958-633c-4261-9943-6287ffd9c443")
+		(name "PMS5003 screw head")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 25 -16.5) (xy 24.914814 -15.852952) (xy 24.665063 -15.25) (xy 24.267766 -14.732233) (xy 23.75 -14.334936)
+				(xy 23.147047 -14.085185) (xy 22.5 -14) (xy 21.852952 -14.085185) (xy 21.25 -14.334936) (xy 20.732233 -14.732233)
+				(xy 20.334936 -15.25) (xy 20.085185 -15.852952) (xy 20 -16.5) (xy 20.085185 -17.147047) (xy 20.334936 -17.75)
+				(xy 20.732233 -18.267766) (xy 21.25 -18.665063) (xy 21.852952 -18.914814) (xy 22.5 -19) (xy 23.147047 -18.914814)
+				(xy 23.75 -18.665063) (xy 24.267766 -18.267766) (xy 24.665063 -17.75) (xy 24.914814 -17.147047)
+			)
+		)
+	)
+	(zone
+		(layer "B.Cu")
+		(uuid "d5642a1d-6c21-4ffc-b25e-ae42c2269e7c")
+		(name "PMS5003 screw head")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 25 16.5) (xy 24.914814 17.147047) (xy 24.665063 17.75) (xy 24.267766 18.267766) (xy 23.75 18.665063)
+				(xy 23.147047 18.914814) (xy 22.5 19) (xy 21.852952 18.914814) (xy 21.25 18.665063) (xy 20.732233 18.267766)
+				(xy 20.334936 17.75) (xy 20.085185 17.147047) (xy 20 16.5) (xy 20.085185 15.852952) (xy 20.334936 15.25)
+				(xy 20.732233 14.732233) (xy 21.25 14.334936) (xy 21.852952 14.085185) (xy 22.5 14) (xy 23.147047 14.085185)
+				(xy 23.75 14.334936) (xy 24.267766 14.732233) (xy 24.665063 15.249999) (xy 24.914814 15.852952)
+			)
+		)
+	)
+	(embedded_fonts no)
+)
