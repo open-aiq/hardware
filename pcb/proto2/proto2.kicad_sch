@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "Open AIQ Proto2: devkit carrier")
-		(date "2026-11-12")
-		(rev "D")
+		(date "2026-11-17")
+		(rev "E")
 		(company "Open AIQ")
 		(comment 1 "Carrier PCB for an ESP32-S3-DevKitC-1 (or pin-compatible clone)")
 		(comment 2 "GPIO map follows open-aiq/device src/board.rs")
@@ -4436,7 +4436,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_Molex:Molex_PicoBlade_53047-0810_1x08_P1.25mm_Vertical"
+		(property "Footprint" "open-aiq:PMS5003_Adapter_Socket_1x08"
 			(at 96.52 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -4458,7 +4458,7 @@
 				)
 			)
 		)
-		(property "Description" "PMS5003 particulate sensor cable connector."
+		(property "Description" "PMS5003 particulate sensor, through its 1.25 mm to 2.54 mm adapter board."
 			(at 96.52 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -4469,7 +4469,7 @@
 				)
 			)
 		)
-		(property "Part" "Molex PicoBlade 53047-0810, 8-pin 1.25 mm vertical header"
+		(property "Part" "1×8 female header, 2.54 mm, for a PMS5003 adapter board (1.25 mm cable to 2.54 mm pins)"
 			(at 96.52 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -6052,7 +6052,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 115.57 116.078 90)
 			(hide yes)
 			(show_name no)
@@ -6463,7 +6463,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 125.73 118.618 90)
 			(hide yes)
 			(show_name no)

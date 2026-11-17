@@ -1,4 +1,4 @@
-// Proto2 rev D: design rationale.
+// Proto2 rev E: design rationale.
 // Build from this folder with:  typst compile proto2-rationale.typ
 // Fonts are Typst's bundled ones, so it builds the same anywhere.
 
@@ -10,7 +10,7 @@
 #let wood = rgb("#c9a77c")
 
 #set document(
-  title: "Proto2 rev D: design rationale",
+  title: "Proto2 rev E: design rationale",
   author: "Open AIQ",
   keywords: ("Open AIQ", "Proto2", "ESP32-S3", "PMS5003", "SHT30", "SH1106"),
 )
@@ -20,7 +20,7 @@
   numbering: "1",
   footer: context [
     #set text(size: 8pt, fill: sage)
-    Open AIQ · Proto2 rev D · Design rationale
+    Open AIQ · Proto2 rev E · Design rationale
     #h(1fr)
     #counter(page).display("1 / 1", both: true)
   ],
@@ -160,11 +160,11 @@
   #set par(justify: false)
   #text(size: 9pt, fill: sage, tracking: 0.08em)[OPEN AIQ · HARDWARE]
   #v(0.15em)
-  #text(size: 24pt, weight: "bold", fill: ink)[Proto2 rev D: design rationale]
+  #text(size: 24pt, weight: "bold", fill: ink)[Proto2 rev E: design rationale]
   #v(0.1em)
   #text(size: 12pt, fill: accent)[Why each part and pin is on the carrier board, and why it works]
   #v(0.4em)
-  #text(size: 9pt, fill: sage)[12 November 2026 · Matches `proto2.kicad_sch` and `proto2.kicad_pcb` in open-aiq/hardware, and `src/board.rs` in open-aiq/device]
+  #text(size: 9pt, fill: sage)[17 November 2026 · Matches `proto2.kicad_sch` and `proto2.kicad_pcb` in open-aiq/hardware, and `src/board.rs` in open-aiq/device]
 ]
 #line(length: 100%, stroke: 0.6pt + wood)
 
@@ -176,7 +176,7 @@ This document goes through the board one part at a time. For each part you'll fi
 
 #figure(
   image("renders/proto2-top.png", width: 100%),
-  caption: [Proto2 rev D from the top. The devkit plugs into the two long sockets on the right, with its antenna past the top edge.],
+  caption: [Proto2 rev E from the top. The devkit plugs into the two long sockets on the right, with its antenna past the top edge.],
 )
 
 = Pin choices
@@ -210,8 +210,9 @@ The ESP32-S3's #kw("matrix")[GPIO matrix] lets a UART, I²C or RMT peripheral us
 
 == PMS5003 particle sensor (J1)
 
-+ *Connector.* An 8-pin, 1.25 mm header carries 5 V, ground, SET, the UART pair and RESET, in the order the manual gives (PIN1 VCC to PIN8 NC) #rc("pms", "Pin Definition, Fig. 2"). Pins 7 and 8 stay unconnected, as the manual asks #rc("pms", "Circuit Attentions 3").
-+ *5 V supply.* The sensor's fan needs 5 V: typically 5.0 V, at least 4.5 V and at most 5.5 V #rc("pms", "Technical Index"). It draws up to 100 mA while running and up to 200 µA asleep #rc("pms", "Technical Index"). Proto2 feeds it straight from the devkit's 5V pin on 0.8 to 1.0 mm tracks.
++ *Connector.* The sensor's cable ends in a tiny 1.25 mm plug, so we use the common adapter board that turns it into a row of 2.54 mm pins. J1 is a 1×8 socket for those pins. It carries 5 V, ground, SET, the UART pair and RESET, in the order the manual gives (PIN1 VCC to PIN8 NC) #rc("pms", "Pin Definition, Fig. 2"), and the silkscreen names each pin. Pins 7 and 8 stay unconnected, as the manual asks #rc("pms", "Circuit Attentions 3").
++ *Room for the adapter.* The adapter lies flat above the socket, so a dashed area of about 22 × 22 mm around J1 stays free of parts, wide enough for it to lie on either side. We sized it from a photo of a typical adapter (about 22 × 10 mm), so check yours before you order.
++ *5 V supply.* The sensor's fan needs 5 V: typically 5.0 V, at least 4.5 V and at most 5.5 V #rc("pms", "Technical Index"). It draws up to 100 mA while running and up to 200 µA asleep #rc("pms", "Technical Index"). Proto2 feeds it straight from the devkit's 5V pin on a 1.5 mm track.
 + *Data connects directly.* The fan needs 5 V, but the sensor's data pins use 3.3 V logic, so a 3.3 V microcontroller needs no level shifter #rc("pms", "Circuit Attentions 1"). Its output is below 0.8 V when low and above 2.7 V when high #rc("pms", "Technical Index"). The ESP32-S3 reads low below 0.25 × 3.3 V = 0.83 V and high above 0.75 × 3.3 V = 2.48 V #rc("esp-ds", "Table 5-4"), so both levels clear the thresholds. The link runs at 9600 baud with no parity and one stop bit #rc("pms", "Appendix I").
 + *C1, 47 µF #kw("bulk")[bulk capacitor].* The fan starts every time the firmware wakes the sensor, once every five minutes. The 5 V comes a long way, through the USB cable and the devkit, and that path has resistance and inductance. C1 sits by the devkit's 5V pin and covers the step until that path catches up. As a rough illustration, a 100 mA step for 100 µs drops C1 by only $Delta V = I Delta t \/ C = 0.1 times 100 times 10^(-6) \/ (47 times 10^(-6)) approx 0.21 "V"$. Espressif makes the same recommendation for its chips: at least 10 µF where power enters a board #rc("hdg", "§1.3.2").
 
@@ -246,13 +247,14 @@ The ESP32-S3's #kw("matrix")[GPIO matrix] lets a UART, I²C or RMT peripheral us
   $ R_p (min) = (V_"CC" - V_"OL")/I_"OL" = (3.3 - 0.4) "V" / (3 "mA") approx 967 Omega $
 + *The highest value allowed.* In 400 kHz Fast-mode, the #kw("rise")[rise time] must stay under 300 ns #rc("ti", "Table 2-1, Eq. 6"):
   $ R_p (max) = t_r / (0.8473 times C_b) $
-  We estimate Proto2's #kw("cb")[bus capacitance] generously at 60 pF: about 20 cm of track (SCL 199 mm, SDA 184 mm) and three devices with their module wiring. That gives $R_p (max) approx 300 "ns" \/ (0.8473 times 60 "pF") approx 5.9 "k" Omega$, well within the 400 pF limit #rc("sht", "Table 21").
+  We estimate Proto2's #kw("cb")[bus capacitance] generously at 60 pF: about 21 cm of track (SCL 206 mm, SDA 211 mm) and three devices with their module wiring. That gives $R_p (max) approx 300 "ns" \/ (0.8473 times 60 "pF") approx 5.9 "k" Omega$, well within the 400 pF limit #rc("sht", "Table 21").
++ *Footprint.* R1 and R2 use a 7.62 mm pitch, a little shorter than the other resistors, so they line up with the devkit's pins and every I²C track keeps its full width. A standard 1/4 W resistor fits with its legs bent closer to the body.
 + *Why 4.7 kΩ.* It sits between those bounds, with a rise time of about $0.8473 times 4.7 "k" Omega times 60 "pF" approx 240 "ns"$ #rc("ti", "Eq. 5"). Most OLED and SHT30 breakouts carry their own pull-ups, which end up in parallel with R1 and R2. Two 10 kΩ breakout pull-ups bring the total to about 2.4 kΩ; even the worst case of two more 4.7 kΩ resistors gives 1.57 kΩ, still above 967 Ω. If you add a third I²C module, check that the combined value stays above that floor.
 
 == 3.3 V capacitors (C3, C4)
 
-+ *C3, 10 µF bulk, and C4, 100 nF decoupling,* sit where the 3.3 V track branches to the SHT30, the pull-ups and the screen. The OLED draws its current in pulses as it refreshes. These two capacitors supply those pulses locally, so they don't travel back along the track to the devkit's regulator. It's the same pairing of a bulk capacitor and a 100 nF capacitor that Espressif recommends near its chip #rc("hdg", "§1.3.2").
-+ *Without them*, the board would most likely still work, because the devkit and the breakouts have capacitors of their own. C3 and C4 are a cheap margin against noise on a 23 cm supply track.
++ *C3, 10 µF bulk, and C4, 100 nF decoupling,* sit on the 3.3 V track near its loads: C4 right under the SHT30's supply pin, C3 next to R3 at the bottom right. The OLED draws its current in pulses as it refreshes. These two capacitors supply those pulses locally, so they don't travel back along the track to the devkit's regulator. It's the same pairing of a bulk capacitor and a 100 nF capacitor that Espressif recommends near its chip #rc("hdg", "§1.3.2").
++ *Without them*, the board would most likely still work, because the devkit and the breakouts have capacitors of their own. C3 and C4 are a cheap margin against noise on a 27 cm supply track.
 
 == Buttons (SW1, SW2, SW3)
 
@@ -263,11 +265,11 @@ The ESP32-S3's #kw("matrix")[GPIO matrix] lets a UART, I²C or RMT peripheral us
 
 = The board and its routing
 
-+ *One copper layer.* All tracks are on the bottom and every part is through-hole, so any fab can make it and you can solder it with a basic iron. Even so, we suggest ordering it as a 2-layer board. That gives you #kw("pth")[plated through-holes], and the PMS5003 connector needs them: its pads are 0.8 × 1.3 mm around a 0.5 mm hole, leaving only 0.15 mm of copper on the narrow sides. That lifts easily on an unplated hole.
-+ *Track width and clearance.* Signal tracks are 0.5 mm wide wherever they fit, with 0.25 mm clearance. Where one passes between two header pins 2.54 mm apart it narrows to 0.3 mm (pad 1.7 mm, gap 0.84 mm ≥ 0.3 + 2 × 0.25 mm), and to 0.4 mm in a few other tight spots. Power tracks are 1.0 mm, narrowing to 0.8 mm or less in tight spots. A #kw("netclass")[net class] sets the starting widths for each group of nets. Wider tracks and gaps are kinder to hand soldering and home etching.
-+ *Plenty of current headroom.* With 35 µm copper on an outer layer and a 10 °C temperature rise, the curve fit for the IPC chart #rc("ipc", "§6.2, Fig. 6-4") gives about 2.4 A for a 1.0 mm track, 2.0 A for 0.8 mm and 1.0 A for 0.3 mm. Proto2's biggest load is the particle sensor at up to 100 mA #rc("pms", "Technical Index").
-+ *Ground.* A #kw("fill")[ground fill] covers the free bottom copper, and tracks join the ground pins it can't reach. The fill keeps 0.5 mm from all other copper. Ground tracks are 1.0 mm wherever the clearance rules allow. Between the devkit's header pins and the 3.3 V track there's only room for 0.3 mm. The particle sensor's return path from J1 to the devkit's ground pin is 31 mm long and at most about 43 mΩ. At 100 mA, that's a 4.3 mV drop at most, which the sensor never notices. C1's return is 10 mm of 0.8 to 1.0 mm track, at most about 6 mΩ. (Copper resistivity 1.72 × 10#super[−8] Ω·m, 35 µm thick.)
-+ *Edges and holes.* Copper stays at least 0.5 mm from the board edge. The smallest hole is 0.5 mm, for the PMS5003 connector. Four M3 mounting holes sit 4 mm in from each corner.
++ *One copper layer.* All tracks are on the bottom and every part is through-hole, so any fab can make it and you can solder it with a basic iron. Even so, we suggest ordering it as a 2-layer board. That gives you #kw("pth")[plated through-holes], which hold their pads much better when you solder and resolder the sockets.
++ *Track width and clearance.* Every signal track is 0.8 mm wide and every power track 1.5 mm, with at least 0.4 mm between copper of different nets. No track squeezes between two header pins, so nothing narrows anywhere. A #kw("netclass")[net class] sets these widths for each group of nets, and the board's minimums (0.8 mm track, 0.4 mm clearance) stop a later edit from going thinner. Wide tracks and gaps are kinder to hand soldering and home etching.
++ *Plenty of current headroom.* With 35 µm copper on an outer layer and a 10 °C temperature rise, the curve fit for the IPC chart #rc("ipc", "§6.2, Fig. 6-4") gives about 3.2 A for a 1.5 mm track and 2.0 A for 0.8 mm. Proto2's biggest load is the particle sensor at up to 100 mA #rc("pms", "Technical Index").
++ *Ground.* A #kw("fill")[ground fill] covers the free bottom copper and reaches every ground pin, so there are no ground tracks at all. The fill keeps 0.8 mm from all other copper. The particle sensor's current returns through the fill from J1 to the devkit's ground pin, about 25 mm away, and C1's ground pad sits 7 mm from that pin. Its narrowest neck, beside R3, is about 1.3 mm wide. Even if all 25 mm were that narrow, the path would be about 9 mΩ, so 100 mA drops under 1 mV. (Copper resistivity 1.72 × 10#super[−8] Ω·m, 35 µm thick.)
++ *Edges and holes.* Copper stays at least 0.5 mm from the board edge. The smallest hole is 0.8 mm, for the resistor and capacitor leads. Four M3 mounting holes sit 4 mm in from each corner.
 + *Keep-outs.*
   - The strip under the antenna has no copper (§3.1).
   - The PMS5003 bed has no top-side copper under the sensor's metal case.
@@ -275,7 +277,7 @@ The ESP32-S3's #kw("matrix")[GPIO matrix] lets a UART, I²C or RMT peripheral us
 
 = First power-up
 
-+ *Check the PMS5003 cable with a multimeter.* Pin 1 on the sensor must reach pin 1 (5 V) on J1. Some 1.25 mm cables come wired in reverse. That won't damage anything, but the sensor stays silent.
++ *Check the PMS5003 adapter with a multimeter.* Pin 1 on the sensor must reach the pin you plug into J1's VCC. Some cables and adapters come wired in reverse. That won't damage anything, but the sensor stays silent.
 + *Measure the 5 V at J1 pin 1 with the fan running.* It should be at least 4.5 V #rc("pms", "Technical Index"). A long or thin USB cable can pull it lower.
 + *Read the serial log.* The I²C scan at boot should find 0x3C (OLED) and 0x44 (SHT30).
 + *Look at the screen.* It should read upright with the pins at the top (§3.3).

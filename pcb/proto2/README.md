@@ -17,7 +17,7 @@ through-hole, so you can solder it by hand and get it made almost anywhere.
 | Ref | Part | Wiring |
 | --- | --- | --- |
 | U1 | ESP32-S3-DevKitC-1, or a pin-compatible clone, on two 1×22 sockets 25.4 mm (1.0 in) apart | All signals are on the left header. USB faces the bottom edge |
-| J1 | PMS5003 particulate sensor, 8-pin 1.25 mm connector | 5 V, UART on GPIO 18 (ESP TX) / 17 (ESP RX), SET on GPIO 8, RESET on GPIO 16 |
+| J1 | PMS5003 particulate sensor, through its 1.25 mm to 2.54 mm adapter board, on a 1×8 socket | `VCC GND SET RX TX RST NC NC`, the sensor's own order, printed on the board. 5 V, UART on GPIO 18 (ESP TX) / 17 (ESP RX), SET on GPIO 8, RESET on GPIO 16 |
 | J2 | 1.3 in SH1106 128×64 I2C OLED module, 4-pin socket | I2C, `GND VCC SCL SDA` from left to right, the order printed on the module's front. The module lies flat over the dashed OLED area |
 | J3 | SHT30 breakout with 6 pins, on a 1×4 and a 1×2 socket | I2C, `VIN GND SCL SDA`. The 2 pins on the far edge (usually ADDR and ALERT) are for support only |
 | SW1, SW2, SW3 | Right, left and pair buttons, 6 × 6 mm 4-leg tactile switches | GPIO 15, GPIO 6 and GPIO 7, active-low |
@@ -51,7 +51,15 @@ pin choice, with references to the datasheets.
 
 ## Revisions
 
-- **Rev D** (this one) widens the copper wherever there's room. Signal tracks
+- **Rev E** (this one) swaps the tiny 1.25 mm PMS5003 connector for a 1×8,
+  2.54 mm socket that takes the sensor's adapter board, with a clear area
+  around it so the adapter can lie flat. Every track is wider and further
+  apart: signals 0.8 mm, power 1.5 mm, at least 0.4 mm between them, and
+  0.8 mm around the ground fill. There are no narrow spots left, and ground
+  comes entirely from the fill. To make room, R3, R4, C1–C4 moved, R1 and R2
+  use a 7.62 mm pitch, and the OLED socket and its area sit 2.5 mm lower.
+  The pin map is the same as rev D.
+- **Rev D** widens the copper wherever there's room. Signal tracks
   go from 0.3 to 0.5 mm (0.4 or 0.3 mm where they squeeze between header
   pins), most power and ground tracks from 0.8 to 1.0 mm, and the ground fill
   keeps 0.5 mm from everything else, up from 0.3 mm. That makes it kinder to
@@ -80,6 +88,12 @@ pin choice, with references to the datasheets.
 - **Measure your SHT30 before you order.** We set the gap between its two pin
   rows to 6.35 mm from a photo. If yours differs, the 4-pin row still works, and
   you can leave the 1×2 socket out.
+- **The PMS5003 plugs in through its adapter board.** The sensor's cable goes
+  into the adapter, and the adapter's 8 pins go into J1. It lies flat over the
+  dashed area beside J1, on whichever side its pins come out. We sized that
+  area from a photo (an adapter of about 22 × 10 mm), so measure yours first.
+  Check that the adapter's pin labels match `VCC GND SET RX TX RST NC NC` on
+  the board before you plug it in.
 - **The PMS5003 sits on the marked bed.** Stick it down with double-sided foam
   tape, vents facing the top edge so it doesn't pull in warm air from the
   devkit. Its case is metal, but there's no copper on top, so it can't short
@@ -97,9 +111,10 @@ pin choice, with references to the datasheets.
 
 A few quick checks before you trust the readings:
 
-1. **Check the PMS5003 cable with a multimeter first.** Pin 1 on the sensor
-   should reach pin 1 (5 V) on J1. Some 1.25 mm cables come wired in reverse.
-   That won't damage anything, but the sensor stays silent.
+1. **Check the PMS5003 cable and adapter with a multimeter first.** Pin 1 on
+   the sensor should reach the adapter pin that sits in J1's `VCC`. Some cables
+   and adapters come wired in reverse. That won't damage anything, but the
+   sensor stays silent.
 2. **Measure 5 V at J1 pin 1 with the fan running.** The PMS5003 needs at least
    4.5 V. A long or thin USB cable, plus the devkit's own power path, can pull
    the 5V pin below what your charger supplies.
@@ -118,9 +133,9 @@ To buy them:
 | 2 | 1×22 female header, 2.54 mm | Sockets for the devkit (U1) |
 | 2 | 1×4 female header, 2.54 mm | OLED (J2) and SHT30 (J3) |
 | 1 | 1×2 female header, 2.54 mm | SHT30's far-edge pins (J3) |
-| 1 | Molex PicoBlade 53047-0810, 8-pin vertical | PMS5003 (J1). Check that it fits your sensor's cable first |
+| 1 | 1×8 female header, 2.54 mm | PMS5003 adapter board (J1). The adapter usually comes with the sensor's cable |
 | 3 | 6 × 6 mm through-hole tactile switch, 4-leg (for example Omron B3F-1000) | SW1, SW2, SW3 |
-| 2 | 4.7 kΩ resistor, 1/4 W axial | R1, R2 |
+| 2 | 4.7 kΩ resistor, 1/4 W axial | R1, R2. These sit on a 7.62 mm pitch, so bend the legs close to the body |
 | 2 | 10 kΩ resistor, 1/4 W axial | R3, R4 |
 | 1 | 47 µF electrolytic, ≥10 V, 6.3 mm radial, 2.5 mm pitch | C1 |
 | 1 | 10 µF electrolytic, ≥10 V, 5 mm radial, 2 mm pitch | C3 |
@@ -136,10 +151,10 @@ haven't placed an order yet, so treat these settings as our first guess:
 | Setting | Value |
 | --- | --- |
 | Size | 142 × 63 mm |
-| Layers | Order it as 2-layer: you get plated holes, and the top side has pads only. The copper is all on the bottom, so a 1-layer order works too, but its holes aren't plated and the small PMS5003 connector pads lift easily when you solder them |
+| Layers | Order it as 2-layer: you get plated holes, and the top side has pads only. The copper is all on the bottom, so a 1-layer order or home etching works too; unplated pads just lift more easily if you resolder them |
 | Thickness | 1.6 mm |
-| Min track / clearance | 0.3 / 0.25 mm (power 0.8 mm), so a track can pass between two 2.54 mm pins |
-| Min hole | 0.5 mm (PMS5003 connector pins); no vias |
+| Min track / clearance | 0.8 / 0.4 mm (power 1.5 mm), with 0.8 mm around the ground fill |
+| Min hole | 0.8 mm (resistor and capacitor leads); no vias |
 | Surface finish | HASL is fine |
 
 Every part is through-hole, so there's no pick-and-place file.
@@ -149,7 +164,7 @@ Every part is through-hole, so there's no pick-and-place file.
 Open `proto2.kicad_pro` in KiCad 10. The repo's [Working in KiCad](../../README.md#working-in-kicad)
 guide covers libraries, rules and outputs. These are ours, in [`lib/`](../../lib):
 
-- the devkit socket and SHT30 socket footprints. The devkit socket marks its
+- the devkit, SHT30 and PMS5003 adapter socket footprints. The devkit socket marks its
   GND pins and its two 3V3 pins as joined inside the devkit (KiCad *jumper pad
   groups*), so they don't need tracks between them
 - the arrow and phone-with-Bluetooth icons under the buttons, which are
