@@ -23,6 +23,32 @@ rm -rf fab checks
 
 (cd fab/gerbers && zip -q "../$name-gerbers.zip" ./*)
 
+# One printable PDF: the schematic (which KiCad writes as $name.pdf), then the
+# board drawings, all A4. Needs qpdf, or Python with pypdf.
+parts=()
+for f in "$name.pdf" "$name-assembly.pdf" "$name-top.pdf" "$name-bottom.pdf"; do
+  [ -f "$f" ] && parts+=("$f")
+done
+if [ "${#parts[@]}" -gt 1 ]; then
+  if command -v qpdf >/dev/null 2>&1; then
+    qpdf --empty --pages "${parts[@]}" -- "$name-merged.pdf"
+  elif python3 -c "import pypdf" 2>/dev/null; then
+    python3 - "$name-merged.pdf" "${parts[@]}" <<'PY'
+import sys
+from pypdf import PdfWriter
+w = PdfWriter()
+for part in sys.argv[2:]:
+    w.append(part)
+w.write(sys.argv[1])
+PY
+  else
+    echo "error: merging the PDFs needs qpdf (brew install qpdf) or pypdf (pip install pypdf)" >&2
+    exit 1
+  fi
+  rm -f "${parts[@]}"
+  mv "$name-merged.pdf" "$name.pdf"
+fi
+
 # JLCPCB wants its own placement (CPL) column names
 pos="$(ls fab/*pos*.csv 2>/dev/null | head -1 || true)"
 if [ -n "$pos" ]; then
@@ -43,4 +69,4 @@ render --perspective --rotate '-40,0,25' --zoom "$zoom" -o "renders/$name-iso.pn
 render --zoom "$zoom" -o "renders/$name-top.png"
 render --side bottom --zoom "$zoom" -o "renders/$name-bottom.png"
 
-echo "Exported $name: $name.pdf, $name-assembly.pdf, any top and bottom layer prints, fab/, renders/"
+echo "Exported $name: $name.pdf (schematic and board drawings), fab/, renders/"
