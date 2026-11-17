@@ -39,6 +39,10 @@ later:
   readings; RESET isn't driven yet.
 
 The schematic is in [`proto2.pdf`](proto2.pdf), and [`proto2-assembly.pdf`](proto2-assembly.pdf) shows where each part goes.
+[`proto2-top.pdf`](proto2-top.pdf) (silkscreen and pads) and [`proto2-bottom.pdf`](proto2-bottom.pdf)
+(copper, mirrored as you'd see it from below) are 1:1 on A4. Print them at 100%
+("Actual size", not "Fit to page") and the board outline measures 142 × 63 mm,
+so you can lay your parts on the paper to check the fit before you order.
 Wondering why a part is there, or why it has that value?
 [`proto2-rationale.pdf`](proto2-rationale.pdf) walks through every component and
 pin choice, with references to the datasheets.

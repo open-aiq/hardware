@@ -86,6 +86,80 @@
       "type": "pcb_export_pdf"
     },
     {
+      "description": "Top view, 1:1 on A4 (copper and silkscreen)",
+      "id": "de6ebf18-54dd-44bb-a54d-d758c5ee0cfb",
+      "settings": {
+        "description": "Top view, 1:1 on A4 (copper and silkscreen)",
+        "back_fp_property_popups": false,
+        "black_and_white": true,
+        "color_theme": "",
+        "crossout_dnp_footprints_on_fab_layers": false,
+        "drawing_sheet": "",
+        "drill_shape": "full",
+        "front_fp_property_popups": false,
+        "hide_dnp_footprints_on_fab_layers": false,
+        "layers": [
+          "F.SilkS"
+        ],
+        "layers_to_include_on_all_layers": [
+          "F.Cu",
+          "Edge.Cuts"
+        ],
+        "mirror": false,
+        "negative": false,
+        "output_filename": "proto2-top.pdf",
+        "pdf_gen_mode": "all-layers-one-file",
+        "pdf_metadata": true,
+        "plot_drawing_sheet": true,
+        "plot_footprint_values": false,
+        "plot_pad_numbers": false,
+        "plot_ref_des": true,
+        "single_document": true,
+        "sketch_dnp_footprints_on_fab_layers": false,
+        "sketch_pads_on_fab_layers": false,
+        "subtract_solder_mask_from_silk": false,
+        "use_drill_origin": false
+      },
+      "type": "pcb_export_pdf"
+    },
+    {
+      "description": "Bottom view, 1:1 on A4, mirrored as seen from below (copper and silkscreen)",
+      "id": "96113381-2aa4-4409-b318-77984ceb6b2d",
+      "settings": {
+        "description": "Bottom view, 1:1 on A4, mirrored as seen from below (copper and silkscreen)",
+        "back_fp_property_popups": false,
+        "black_and_white": true,
+        "color_theme": "",
+        "crossout_dnp_footprints_on_fab_layers": false,
+        "drawing_sheet": "",
+        "drill_shape": "full",
+        "front_fp_property_popups": false,
+        "hide_dnp_footprints_on_fab_layers": false,
+        "layers": [
+          "B.Cu"
+        ],
+        "layers_to_include_on_all_layers": [
+          "B.SilkS",
+          "Edge.Cuts"
+        ],
+        "mirror": true,
+        "negative": false,
+        "output_filename": "proto2-bottom.pdf",
+        "pdf_gen_mode": "all-layers-one-file",
+        "pdf_metadata": true,
+        "plot_drawing_sheet": true,
+        "plot_footprint_values": false,
+        "plot_pad_numbers": false,
+        "plot_ref_des": true,
+        "single_document": true,
+        "sketch_dnp_footprints_on_fab_layers": false,
+        "sketch_pads_on_fab_layers": false,
+        "subtract_solder_mask_from_silk": false,
+        "use_drill_origin": false
+      },
+      "type": "pcb_export_pdf"
+    },
+    {
       "description": "Gerbers",
       "id": "8291ea48-1880-45dc-8a27-6632e2fe1a02",
       "settings": {
@@ -203,11 +277,13 @@
       "type": "folder"
     },
     {
-      "description": "Schematic and assembly PDFs",
+      "description": "Schematic, assembly and layer PDFs",
       "id": "eee40665-9ac8-437b-9591-55ec0f599eb3",
       "only": [
         "8b7ddabb-8cb0-4f96-b218-eb96b248f6f4",
-        "242b639b-7ffe-42df-ab90-e77dfcf47772"
+        "242b639b-7ffe-42df-ab90-e77dfcf47772",
+        "de6ebf18-54dd-44bb-a54d-d758c5ee0cfb",
+        "96113381-2aa4-4409-b318-77984ceb6b2d"
       ],
       "settings": {
         "output_path": "./"

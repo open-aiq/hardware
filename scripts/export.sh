@@ -43,4 +43,4 @@ render --perspective --rotate '-40,0,25' --zoom "$zoom" -o "renders/$name-iso.pn
 render --zoom "$zoom" -o "renders/$name-top.png"
 render --side bottom --zoom "$zoom" -o "renders/$name-bottom.png"
 
-echo "Exported $name: $name.pdf, $name-assembly.pdf, fab/, renders/"
+echo "Exported $name: $name.pdf, $name-assembly.pdf, any top and bottom layer prints, fab/, renders/"
