@@ -29,14 +29,15 @@ The pins match [`src/board.rs`](https://github.com/open-aiq/device/blob/main/src
 in open-aiq/device. Rev B moved several pins so every trace fits on one side of
 the board, so flash firmware with the matching `board.rs` before you plug a
 devkit in. Older breadboard builds used the previous map (SDA 8, SCL 9, buttons
-4 and 5), which you'll find in the firmware README. A few pins are there for
-later:
+4 and 5), which you'll find in the firmware README. A few pins are worth knowing
+about:
 
-- **SW3 Pair (GPIO 7)** will start BLE pairing with the phone app. The firmware
-  doesn't read it yet, so for now pressing it does nothing.
+- **SW3 Pair (GPIO 7)** starts BLE pairing with the phone app when you hold it
+  for 3 s. Holding left and right together does the same.
 - **SET and RESET** have pull-ups that keep the sensor running while the
   devkit boots. The firmware drives SET low to rest the sensor between
-  readings; RESET isn't driven yet.
+  readings, and pulses RESET low to restart it if a whole burst brings no
+  readings.
 
 Everything to print is in [`proto2.pdf`](proto2.pdf): the schematic, where each
 part goes, the top (silkscreen and pads), the bottom copper (mirrored, as you'd
@@ -51,7 +52,11 @@ pin choice, with references to the datasheets.
 
 ## Revisions
 
-- **Rev F** (this one) adds four M2 holes so you can screw the PMS5003 to
+- **Rev G** (this one) widens the gap around the ground fill from 0.8 to
+  0.9 mm, so there's more room between ground and every other track. To keep
+  the SHT30's ground pin on the fill, the 3.3 V track to R4 moved 0.4 mm
+  right. Nothing else moved, and the pin map and parts match rev F.
+- **Rev F** adds four M2 holes so you can screw the PMS5003 to
   the board, on the sensor's own 45 × 33 mm hole pattern. It also fixes the
   SHT30 socket: the 2-pin row now sits opposite SCL and SDA, 10.16 mm from
   the 4-pin row, which is where the pins are on a real breakout (rev E had it
@@ -166,7 +171,7 @@ haven't placed an order yet, so treat these settings as our first guess:
 | Size | 142 × 63 mm |
 | Layers | Order it as 2-layer: you get plated holes, and the top side has pads only. The copper is all on the bottom, so a 1-layer order or home etching works too; unplated pads just lift more easily if you resolder them |
 | Thickness | 1.6 mm |
-| Min track / clearance | 1.0 / 0.4 mm (power 1.5 mm), with 0.8 mm around the ground fill |
+| Min track / clearance | 1.0 / 0.4 mm (power 1.5 mm), with 0.9 mm around the ground fill |
 | Min hole | 0.8 mm (resistor and capacitor leads), plus four 2.2 mm holes for the PMS5003 screws; no vias |
 | Surface finish | HASL is fine |
 
