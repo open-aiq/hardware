@@ -5,13 +5,13 @@
       "Application": "Pcbnew",
       "Version": "10.0.8"
     },
-    "CreationDate": "2026-11-17T22:39:11+05:00"
+    "CreationDate": "2026-11-18T04:02:45+05:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
       "Name": "proto2",
       "GUID": "70726f74-6f32-42e6-9b69-6361645f7063",
-      "Revision": "F"
+      "Revision": "G"
     },
     "Size": {
       "X": 142.05,
@@ -28,8 +28,8 @@
       "PadToTrack": 0.25,
       "TrackToTrack": 0.4,
       "MinLineWidth": 1.0,
-      "TrackToRegion": 0.8,
-      "RegionToRegion": 0.8
+      "TrackToRegion": 0.9,
+      "RegionToRegion": 0.9
     }
   ],
   "FilesAttributes": [
