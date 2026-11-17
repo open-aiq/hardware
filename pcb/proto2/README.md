@@ -38,18 +38,25 @@ later:
   devkit boots. The firmware drives SET low to rest the sensor between
   readings; RESET isn't driven yet.
 
-The schematic is in [`proto2.pdf`](proto2.pdf), and [`proto2-assembly.pdf`](proto2-assembly.pdf) shows where each part goes.
-[`proto2-top.pdf`](proto2-top.pdf) (silkscreen and pads) and [`proto2-bottom.pdf`](proto2-bottom.pdf)
-(copper, mirrored as you'd see it from below) are 1:1 on A4. Print them at 100%
-("Actual size", not "Fit to page") and the board outline measures 142 × 63 mm,
-so you can lay your parts on the paper to check the fit before you order.
+Everything to print is in [`proto2.pdf`](proto2.pdf): the schematic, where each
+part goes, the top (silkscreen and pads) and the bottom copper, mirrored as
+you'd see it from below. Every page is A4, and the board pages are 1:1. Print
+at 100% ("Actual size", not "Fit to page") and the board outline measures
+142 × 63 mm, so you can lay your parts on the paper to check the fit before you
+order.
 Wondering why a part is there, or why it has that value?
 [`proto2-rationale.pdf`](proto2-rationale.pdf) walks through every component and
 pin choice, with references to the datasheets.
 
 ## Revisions
 
-- **Rev C** (this one) rotates the OLED socket so it reads `GND VCC SCL SDA`,
+- **Rev D** (this one) widens the copper wherever there's room. Signal tracks
+  go from 0.3 to 0.5 mm (0.4 or 0.3 mm where they squeeze between header
+  pins), most power and ground tracks from 0.8 to 1.0 mm, and the ground fill
+  keeps 0.5 mm from everything else, up from 0.3 mm. That makes it kinder to
+  hand soldering and home etching. Nothing moved, so the parts, pins and
+  silkscreen match rev C apart from the rev label.
+- **Rev C** rotates the OLED socket so it reads `GND VCC SCL SDA`,
   the order printed on the module. Rev B had it mirrored, which would have
   swapped 3.3 V and ground. It also widens the ground tracks where there's
   room and changes C1 from 100 µF to 47 µF. The pin map is the same as rev B.
