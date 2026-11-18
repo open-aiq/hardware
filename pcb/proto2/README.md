@@ -2,8 +2,8 @@
 
 Proto2 is the board we use to get Open AIQ off the breadboard. The OLED sits
 top-left with three buttons under it, the sensors take the middle, and your
-ESP32-S3 devkit plugs into two sockets on the right with its USB port at the
-bottom edge. It's single-sided (all copper on the bottom) and everything is
+ESP32-S3 devkit plugs into two sockets on the right with its antenna past the
+top edge. It's single-sided (all copper on the bottom) and everything is
 through-hole, so you can solder it by hand and get it made almost anywhere.
 
 ![Proto2, 3D render](renders/proto2-iso.png)
@@ -18,12 +18,12 @@ through-hole, so you can solder it by hand and get it made almost anywhere.
 | --- | --- | --- |
 | U1 | ESP32-S3-DevKitC-1, or a pin-compatible clone, on two 1×22 sockets 25.4 mm (1.0 in) apart | All signals are on the left header. USB faces the bottom edge |
 | J1 | PMS5003 particulate sensor, through its 1.25 mm to 2.54 mm adapter board, on a 1×8 socket | `VCC GND SET RX TX RST NC NC`, the sensor's own order, printed on the board. 5 V, UART on GPIO 18 (ESP TX) / 17 (ESP RX), SET on GPIO 8, RESET on GPIO 16 |
-| J2 | 1.3 in SH1106 128×64 I2C OLED module, 4-pin socket | I2C, `GND VCC SCL SDA` from left to right, the order printed on the module's front. The module lies flat over the dashed OLED area |
-| J3 | SHT30 breakout with 6 pins, on a 1×4 and a 1×2 socket 10.16 mm apart | I2C, `VIN GND SCL SDA`. The 2 pins on the far edge sit opposite SCL and SDA and are for support only |
+| J2 | 1.3 in SH1106 128×64 I2C OLED module, 4-pin socket | I2C, `GND VCC SCL SDA` from left to right, the order printed on the module's front. The module lies flat over the OLED box |
+| J3 | SHT30 breakout with 6 pins, on a 1×4 and a 1×2 socket 10.16 mm apart | I2C, `SDA SCL GND VIN` from left to right on the silkscreen. The 2 pins on the far edge sit opposite SCL and SDA and are for support only |
 | SW1, SW2, SW3 | Right, left and pair buttons, 6 × 6 mm 4-leg tactile switches | GPIO 15, GPIO 6 and GPIO 7, active-low |
-| R1, R2 | 4.7 kΩ I2C pull-ups | SDA (GPIO 5), SCL (GPIO 4) to 3.3 V |
-| R3, R4 | 10 kΩ pull-ups | SET (R3) and RESET (R4), so the PMS5003 stays awake and out of reset unless the firmware says otherwise |
-| C1–C4 | Bulk and decoupling capacitors | 47 µF + 100 nF on 5 V, 10 µF + 100 nF on 3.3 V |
+| R1, R2 | 4.7 kΩ I2C pull-ups | SDA (GPIO 5), SCL (GPIO 4) to 3.3 V, under the OLED module |
+| R3, R4 | 10 kΩ pull-ups | SET (R3) and RESET (R4), so the PMS5003 stays awake and out of reset unless the firmware says otherwise. In the `PMS PULL-UPS` box, between the SHT30 and J1 |
+| C1–C4 | Bulk and decoupling capacitors | 47 µF + 100 nF on 5 V (C1, C2) and 10 µF + 100 nF on 3.3 V (C3, C4). All four sit under the devkit, between its sockets, so they need to be low-profile parts |
 
 The pins match [`src/board.rs`](https://github.com/open-aiq/device/blob/main/src/board.rs)
 in open-aiq/device. Rev B moved several pins so every trace fits on one side of
@@ -39,20 +39,41 @@ about:
   readings, and pulses RESET low to restart it if a whole burst brings no
   readings.
 
-Everything to print is in [`proto2.pdf`](proto2.pdf): the schematic, where each
-part goes, the top (silkscreen and pads), the bottom copper (mirrored, as you'd
-see it from below) and the 3D renders. Every page is A4, and the board drawings
-are 1:1. Print
-at 100% ("Actual size", not "Fit to page") and the board outline measures
-142 × 63 mm, so you can lay your parts on the paper to check the fit before you
-order.
+Everything to print is in [`proto2.pdf`](proto2.pdf): the schematic, the bottom
+copper (mirrored, as you'd see it from below), a drill map of every hole by
+size, and three 3D renders (an angled view, the top and the bottom). Every page
+is A4. The bottom copper is 1:1, so print it at 100% ("Actual size", not "Fit to
+page") and the board outline measures 147 × 75.5 mm. You can lay your parts on
+the paper to check the fit before you order. The drill map is scaled to fit.
 Wondering why a part is there, or why it has that value?
 [`proto2-rationale.pdf`](proto2-rationale.pdf) walks through every component and
 pin choice, with references to the datasheets.
 
 ## Revisions
 
-- **Rev G** (this one) widens the gap around the ground fill from 0.8 to
+- **Rev H** (this one) is about home etching and reading the board.
+  The schematic now joins every part with real wires; only ground, 3.3 V and
+  5 V use power symbols. Signal tracks widen from 1.0 to 1.2 mm and the 5 V
+  feed to 2.0 mm, and tracks that run side by side keep an even gap. The
+  ground fill is never narrower than 1 mm: KiCad drops anything thinner, and
+  a DRC rule in `proto2.kicad_dru` flags a neck that's still carrying a
+  connection. Dead-end strips of fill that reach no ground pin (the wedges
+  between the button tracks, under the PMS5003 bed and between the devkit and
+  J1) are cut back with `No ground finger` rule areas, with 45° corners. R1
+  and R2 (I2C pull-ups) lie flat under the OLED module, and C1–C4 use the 1 cm
+  of space under the devkit, right beside its 3V3 and 5V pins. The SHT30
+  socket, R3 and R4 (in the `PMS PULL-UPS` box) and J1 sit in one row along
+  the bottom, J1 next to the devkit, so the 5 V feed is one straight track.
+  The PMS5003 bed sits 10 mm further right to leave the OLED some room, and
+  the buttons sit 3 mm lower. R3 and R4 move to a 7.62 mm pitch, and J3 turns
+  round (its pins now read `SDA SCL GND VIN`). The board grows to 147 × 75.5 mm to
+  make room, and the bottom copper under the devkit says `Open AIR IQ`. The
+  silkscreen is bold and uppercase with rounded double-line boxes, and the
+  devkit's pin names are printed inside its sockets. We also gave it a friendlier
+  face: the OLED box smiles and says hello, and the bottom has a little scene
+  with our monitor waving from the hills and a thank-you note. The pin map
+  matches rev G.
+- **Rev G** widens the gap around the ground fill from 0.8 to
   0.9 mm, so there's more room between ground and every other track. To keep
   the SHT30's ground pin on the fill, the 3.3 V track to R4 moved 0.4 mm
   right. Nothing else moved, and the pin map and parts match rev F.
@@ -96,8 +117,13 @@ pin choice, with references to the datasheets.
   `IN-OUT` solder jumper next to the 5V pin. Until you bridge it, USB power
   doesn't reach that pin, and the PMS5003 stays dark. Once it's bridged, don't
   feed 5 V into the pin while USB is plugged in.
-- **The OLED lies flat over its dashed area.** It plugs into J2 face-up and
-  rests over that area, which is why nothing else is placed there.
+- **C1–C4 sit under the devkit.** There's about 1 cm between the board and
+  the devkit, so pick capacitors no taller than 8 mm (see [Parts](#parts)),
+  and plug the devkit in once to check it seats fully before you solder them.
+- **The OLED lies flat over its box.** It plugs into J2 face-up and
+  rests over that area, so the only parts under it are R1 and R2, lying flat.
+  Solder those before you fit the screen. If your module sits lower than the
+  socket's usual 8.5 mm, check they clear it.
 - **Check your SHT30 against the socket.** The 2-pin row sits 10.16 mm
   (4 breadboard holes) from the 4-pin row, opposite SCL and SDA, as measured on
   our breakout. If yours differs, the 4-pin row still works, and you can leave
@@ -117,7 +143,8 @@ pin choice, with references to the datasheets.
   anything.
 - **The devkit's antenna hangs off the top edge.** That's on purpose: copper
   under an antenna weakens WiFi and BLE, so the ground fill also stops short of
-  that end.
+  that end. Its USB end sits about 12 mm in from the bottom edge, with nothing
+  tall underneath, so a USB plug still fits.
 - **R8 modules use GPIO 35, 36 and 37 for PSRAM.** Proto2 leaves them
   unconnected, so keep it that way if you add anything.
 - **The status LED is on the devkit.** The firmware drives both GPIO 48
@@ -153,25 +180,25 @@ To buy them:
 | 1 | 1×8 female header, 2.54 mm | PMS5003 adapter board (J1). The adapter usually comes with the sensor's cable |
 | 3 | 6 × 6 mm through-hole tactile switch, 4-leg (for example Omron B3F-1000) | SW1, SW2, SW3 |
 | 2 | 4.7 kΩ resistor, 1/4 W axial | R1, R2. These sit on a 7.62 mm pitch, so bend the legs close to the body |
-| 2 | 10 kΩ resistor, 1/4 W axial | R3, R4 |
-| 1 | 47 µF electrolytic, ≥10 V, 6.3 mm radial, 2.5 mm pitch | C1 |
-| 1 | 10 µF electrolytic, ≥10 V, 5 mm radial, 2 mm pitch | C3 |
-| 2 | 100 nF ceramic, 5 mm pitch | C2, C4 |
+| 2 | 10 kΩ resistor, 1/4 W axial | R3, R4, also on a 7.62 mm pitch |
+| 1 | 47 µF electrolytic, ≥10 V, 6.3 mm radial, 2.5 mm pitch, low-profile (about 5 mm tall, 8 mm at most) | C1. It sits under the devkit, so the usual 11 mm part is too tall |
+| 1 | 10 µF electrolytic, ≥10 V, 5 mm radial, 2 mm pitch, low-profile (about 5 mm tall, 8 mm at most) | C3, also under the devkit |
+| 2 | 100 nF ceramic, 5 mm pitch, 8 mm tall at most | C2, C4, also under the devkit |
 | 4 | M2 self-tapping screw, pan head, about 5 mm long | Optional, to hold the PMS5003 (H5). Use one short enough not to reach inside the sensor |
 
 ## Ordering
 
 [`fab/proto2-gerbers.zip`](fab/proto2-gerbers.zip) holds the Gerbers and
-Excellon drill files: bottom copper, bottom solder mask, top silkscreen, the
-outline and drills. Upload it to JLCPCB, PCBWay or a local shop as it is. We
+Excellon drill files: bottom copper, bottom solder mask, top and bottom
+silkscreen, the outline and drills. Upload it to JLCPCB, PCBWay or a local shop as it is. We
 haven't placed an order yet, so treat these settings as our first guess:
 
 | Setting | Value |
 | --- | --- |
-| Size | 142 × 63 mm |
+| Size | 147 × 75.5 mm |
 | Layers | Order it as 2-layer: you get plated holes, and the top side has pads only. The copper is all on the bottom, so a 1-layer order or home etching works too; unplated pads just lift more easily if you resolder them |
 | Thickness | 1.6 mm |
-| Min track / clearance | 1.0 / 0.4 mm (power 1.5 mm), with 0.9 mm around the ground fill |
+| Min track / clearance | 1.2 / 0.4 mm (power 1.5 mm, the 5 V feed 2.0 mm), with 0.9 mm around the ground fill, which is never narrower than 1 mm |
 | Min hole | 0.8 mm (resistor and capacitor leads), plus four 2.2 mm holes for the PMS5003 screws; no vias |
 | Surface finish | HASL is fine |
 
@@ -191,6 +218,11 @@ guide covers libraries, rules and outputs. These are ours, in [`lib/`](../../lib
   board-only footprints you can move
 - the sensor symbols
 
+The `Open AIR IQ` text on the bottom copper uses
+[Orbitron](https://fonts.google.com/specimen/Orbitron), a free font. Install it
+before you edit the board, or KiCad swaps in its own font and the letters
+change shape. The Gerbers already carry the right outlines.
+
 To refresh the outputs, run `proto2.kicad_jobset` in KiCad, or this from the repo
 root:
 
@@ -198,7 +230,9 @@ root:
 scripts/export.sh pcb/proto2
 ```
 
-Both stop if ERC or DRC finds a problem.
+Both stop if ERC or DRC finds a problem. The home-etching rules (1.2 mm
+signals, 1.5 mm power, no ground neck under 1 mm) live in
+[`proto2.kicad_dru`](proto2.kicad_dru), next to the board.
 
 The design rationale is written in [Typst](https://typst.app). If you change a
 part, update `proto2-rationale.typ` too, then rebuild the PDF from this folder:

@@ -941,8 +941,8 @@
 		)
 		(symbol "OLED_I2C_4pin_0_1"
 			(rectangle
-				(start -5.08 5.08)
-				(end 5.08 -5.08)
+				(start -7.62 5.08)
+				(end 7.62 -5.08)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -991,7 +991,7 @@
 			)
 			(pin input line
 				(at 10.16 -2.54 180)
-				(length 5.08)
+				(length 2.54)
 				(name "SCL"
 					(effects
 						(font
@@ -1009,7 +1009,7 @@
 			)
 			(pin bidirectional line
 				(at 10.16 2.54 180)
-				(length 5.08)
+				(length 2.54)
 				(name "SDA"
 					(effects
 						(font
@@ -1094,8 +1094,8 @@
 		)
 		(symbol "PMS5003_0_1"
 			(rectangle
-				(start -7.62 7.62)
-				(end 7.62 -7.62)
+				(start -10.16 7.62)
+				(end 10.16 -7.62)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -1144,7 +1144,7 @@
 			)
 			(pin input line
 				(at 12.7 2.54 180)
-				(length 5.08)
+				(length 2.54)
 				(name "SET"
 					(effects
 						(font
@@ -1162,7 +1162,7 @@
 			)
 			(pin input line
 				(at 12.7 0 180)
-				(length 5.08)
+				(length 2.54)
 				(name "RXD"
 					(effects
 						(font
@@ -1180,7 +1180,7 @@
 			)
 			(pin output line
 				(at 12.7 -2.54 180)
-				(length 5.08)
+				(length 2.54)
 				(name "TXD"
 					(effects
 						(font
@@ -1198,7 +1198,7 @@
 			)
 			(pin input line
 				(at 12.7 5.08 180)
-				(length 5.08)
+				(length 2.54)
 				(name "RESET"
 					(effects
 						(font
@@ -1216,7 +1216,7 @@
 			)
 			(pin no_connect line
 				(at -12.7 2.54 0)
-				(length 5.08)
+				(length 2.54)
 				(name "NC"
 					(effects
 						(font
@@ -1234,7 +1234,7 @@
 			)
 			(pin no_connect line
 				(at -12.7 0 0)
-				(length 5.08)
+				(length 2.54)
 				(name "NC"
 					(effects
 						(font
@@ -1319,8 +1319,8 @@
 		)
 		(symbol "SHT30_Module_0_1"
 			(rectangle
-				(start -5.08 5.08)
-				(end 5.08 -5.08)
+				(start -7.62 5.08)
+				(end 7.62 -5.08)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -1369,7 +1369,7 @@
 			)
 			(pin input line
 				(at 10.16 -2.54 180)
-				(length 5.08)
+				(length 2.54)
 				(name "SCL"
 					(effects
 						(font
@@ -1387,7 +1387,7 @@
 			)
 			(pin bidirectional line
 				(at 10.16 2.54 180)
-				(length 5.08)
+				(length 2.54)
 				(name "SDA"
 					(effects
 						(font
@@ -1405,7 +1405,7 @@
 			)
 			(pin no_connect line
 				(at -10.16 2.54 0)
-				(length 5.08)
+				(length 2.54)
 				(name "NC"
 					(effects
 						(font
@@ -1423,7 +1423,7 @@
 			)
 			(pin no_connect line
 				(at -10.16 -2.54 0)
-				(length 5.08)
+				(length 2.54)
 				(name "NC"
 					(effects
 						(font

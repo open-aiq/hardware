@@ -1,0 +1,21 @@
+(version 1)
+
+# Home-etching rules. Board Setup holds the netclass widths (signals 1.2 mm,
+# power 1.5 mm) and the 1.0 mm minimum connection width; these make the
+# intent explicit so DRC names the rule when something breaks it.
+
+# The ground fill drops anything narrower than 1 mm (its minimum width), so a
+# thin sliver never makes it to the board. This catches a neck that's left
+# carrying a real connection, so you can add a track there instead.
+(rule "Ground fill: no neck under 1 mm"
+	(layer "B.Cu")
+	(condition "A.NetName == 'GND'")
+	(constraint connection_width (min 1mm)))
+
+(rule "Signal tracks: 1.2 mm or wider"
+	(condition "A.Type == 'track' && A.NetClass == 'Default'")
+	(constraint track_width (min 1.2mm)))
+
+(rule "Power tracks: 1.5 mm or wider"
+	(condition "A.Type == 'track' && A.NetClass == 'Power'")
+	(constraint track_width (min 1.5mm)))
