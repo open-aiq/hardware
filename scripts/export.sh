@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 # Regenerate a board's outputs from the command line. It runs the same KiCad jobset
 # (<board>.kicad_jobset) that you can run from KiCad's GUI, then adds what KiCad
-# can't make on its own: a zipped Gerber set, a JLCPCB-format placement file, and
-# 3D renders.
+# can't make on its own: a zipped Gerber set, a JLCPCB-format placement file, 3D
+# renders and one printable PDF.
+#
+# The PDF has, in order: the schematic, the bottom copper (1:1, mirrored as seen
+# from below), a drill map, and the three 3D renders (iso, top, bottom), each on
+# its own A4 page.
 #
 # Usage: scripts/export.sh pcb/<board>
 # Needs kicad-cli (KiCad 10), typst, and qpdf or pypdf; set KICAD_CLI if
@@ -16,11 +20,19 @@ cli="${KICAD_CLI:-kicad-cli}"
 root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$dir"
 
+# Stop early if we can't merge the PDF at the end
+if ! command -v qpdf >/dev/null 2>&1 && ! python3 -c "import pypdf" 2>/dev/null; then
+  echo "error: merging the PDF needs qpdf (brew install qpdf) or pypdf (pip install pypdf)" >&2
+  exit 1
+fi
+
 # Stop early if the design isn't clean
 "$cli" sch erc --severity-all --exit-code-violations -o /dev/null "$name.kicad_sch"
 "$cli" pcb drc --schematic-parity --refill-zones --severity-all --exit-code-violations -o /dev/null "$name.kicad_pcb"
 
 rm -rf fab checks
+# Pages left over from an earlier run would end up in the PDF
+rm -f "$name-assembly.pdf" "$name-top.pdf" "$name-bottom.pdf" "$name-drill.pdf" "$name-renders.pdf"
 "$cli" jobset run --stop-on-error -f "$name.kicad_jobset" "$name.kicad_pro"
 
 (cd fab/gerbers && zip -q "../$name-gerbers.zip" ./*)
@@ -55,10 +67,18 @@ if [ -f "renders/$name-iso.png" ]; then
     "$root/scripts/renders.typ" "$name-renders.pdf"
 fi
 
-# One printable PDF: the schematic (which KiCad writes as $name.pdf), the board
-# drawings, then the 3D renders, all A4. Needs qpdf, or Python with pypdf.
+# A drill map: every hole on the board, marked by size, with a legend. The
+# jobset already makes a Gerber copy for the fab; this one is for the PDF.
+drill_tmp="$(mktemp -d)"
+"$cli" pcb export drill --format excellon --generate-map --map-format pdf \
+  -o "$drill_tmp/" "$name.kicad_pcb" >/dev/null
+mv "$drill_tmp/$name-drl_map.pdf" "$name-drill.pdf"
+rm -rf "$drill_tmp"
+
+# One printable PDF: the schematic (which KiCad writes as $name.pdf), the bottom
+# copper, the drill map, then the 3D renders, all A4.
 parts=()
-for f in "$name.pdf" "$name-assembly.pdf" "$name-top.pdf" "$name-bottom.pdf" "$name-renders.pdf"; do
+for f in "$name.pdf" "$name-bottom.pdf" "$name-drill.pdf" "$name-renders.pdf"; do
   [ -f "$f" ] && parts+=("$f")
 done
 if [ "${#parts[@]}" -gt 1 ]; then
@@ -73,12 +93,9 @@ for part in sys.argv[2:]:
     w.append(part)
 w.write(sys.argv[1])
 PY
-  else
-    echo "error: merging the PDFs needs qpdf (brew install qpdf) or pypdf (pip install pypdf)" >&2
-    exit 1
   fi
   rm -f "${parts[@]}"
   mv "$name-merged.pdf" "$name.pdf"
 fi
 
-echo "Exported $name: $name.pdf (schematic, board drawings and 3D renders), fab/, renders/"
+echo "Exported $name: $name.pdf (schematic, bottom copper, drill map and 3D renders), fab/, renders/"

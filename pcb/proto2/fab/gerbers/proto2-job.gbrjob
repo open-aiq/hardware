@@ -5,17 +5,17 @@
       "Application": "Pcbnew",
       "Version": "10.0.8"
     },
-    "CreationDate": "2026-11-18T04:02:45+05:00"
+    "CreationDate": "2026-11-19T01:50:38+05:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
       "Name": "proto2",
       "GUID": "70726f74-6f32-42e6-9b69-6361645f7063",
-      "Revision": "G"
+      "Revision": "H"
     },
     "Size": {
-      "X": 142.05,
-      "Y": 63.05
+      "X": 147.1,
+      "Y": 75.6
     },
     "LayerNumber": 2,
     "BoardThickness": 1.6,
@@ -27,7 +27,7 @@
       "PadToPad": 0.25,
       "PadToTrack": 0.25,
       "TrackToTrack": 0.4,
-      "MinLineWidth": 1.0,
+      "MinLineWidth": 1.2,
       "TrackToRegion": 0.9,
       "RegionToRegion": 0.9
     }
@@ -41,6 +41,11 @@
     {
       "Path": "proto2-F_Silkscreen.gto",
       "FileFunction": "Legend,Top",
+      "FilePolarity": "Positive"
+    },
+    {
+      "Path": "proto2-B_Silkscreen.gbo",
+      "FileFunction": "Legend,Bot",
       "FilePolarity": "Positive"
     },
     {
