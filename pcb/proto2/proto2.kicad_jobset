@@ -50,10 +50,10 @@
       "type": "sch_export_plot_pdf"
     },
     {
-      "description": "Bottom view, 1:1 on A4, mirrored as seen from below (copper and silkscreen)",
+      "description": "Bottom view, 1:1 on A4, mirrored as seen from below (copper and outline)",
       "id": "96113381-2aa4-4409-b318-77984ceb6b2d",
       "settings": {
-        "description": "Bottom view, 1:1 on A4, mirrored as seen from below (copper and silkscreen)",
+        "description": "Bottom view, 1:1 on A4, mirrored as seen from below (copper and outline)",
         "back_fp_property_popups": false,
         "black_and_white": true,
         "color_theme": "",
@@ -66,7 +66,6 @@
           "B.Cu"
         ],
         "layers_to_include_on_all_layers": [
-          "B.SilkS",
           "Edge.Cuts"
         ],
         "mirror": true,
