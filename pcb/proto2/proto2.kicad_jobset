@@ -86,10 +86,10 @@
       "type": "pcb_export_pdf"
     },
     {
-      "description": "Gerbers",
+      "description": "Gerbers (single-sided: bottom copper only)",
       "id": "8291ea48-1880-45dc-8a27-6632e2fe1a02",
       "settings": {
-        "description": "Gerbers",
+        "description": "Gerbers (single-sided: bottom copper only)",
         "black_and_white": true,
         "create_gerber_job_file": true,
         "crossout_dnp_footprints_on_fab_layers": false,
@@ -124,12 +124,12 @@
       "type": "pcb_export_gerbers"
     },
     {
-      "description": "Drill files (Excellon)",
+      "description": "Drill file (every hole in one file, unplated)",
       "id": "9886fdf7-a3df-4fcc-8b28-1fa0c6f7668a",
       "settings": {
-        "description": "Drill files (Excellon)",
+        "description": "Drill file (every hole in one file, unplated)",
         "drill_origin": "abs",
-        "excellon.combine_pth_npth": false,
+        "excellon.combine_pth_npth": true,
         "excellon.minimal_header": false,
         "excellon.mirror_y": false,
         "excellon.oval_drill_route": false,
@@ -151,7 +151,9 @@
         "fields_group_by": [
           "Value",
           "Part",
-          "Footprint"
+          "Footprint",
+          "LCSC",
+          "MPN"
         ],
         "fields_ordered": [
           "Reference",
@@ -159,6 +161,9 @@
           "Part",
           "Footprint",
           "${QUANTITY}",
+          "Manufacturer",
+          "MPN",
+          "LCSC",
           "Datasheet"
         ],
         "fields_labels": [
@@ -167,6 +172,9 @@
           "Part",
           "Footprint",
           "Qty",
+          "Manufacturer",
+          "MPN",
+          "LCSC",
           "Datasheet"
         ],
         "output_filename": "proto2-bom.csv",
@@ -185,6 +193,25 @@
         "string_delimiter": "\""
       },
       "type": "sch_export_bom"
+    },
+    {
+      "description": "Component placement (CPL)",
+      "id": "ae9cc8af-7137-4bba-8087-379956653083",
+      "settings": {
+        "description": "Component placement (CPL)",
+        "exclude_dnp": true,
+        "exclude_footprints_with_th": false,
+        "format": "csv",
+        "gerber_board_edge": false,
+        "negate_bottom_x": false,
+        "output_filename": "proto2.csv",
+        "side": "both",
+        "single_file": true,
+        "smd_only": false,
+        "units": "mm",
+        "use_drill_place_file_origin": false
+      },
+      "type": "pcb_export_pos"
     }
   ],
   "meta": {
@@ -219,9 +246,20 @@
       "description": "Fabrication files",
       "id": "96c15023-02f3-4a5f-9e62-b4dd77b66304",
       "only": [
+        "6248ae0f-3157-4634-ae95-014640d50e0b",
+        "ae9cc8af-7137-4bba-8087-379956653083"
+      ],
+      "settings": {
+        "output_path": "./fab"
+      },
+      "type": "folder"
+    },
+    {
+      "description": "Gerbers and drill file (single-sided, unplated)",
+      "id": "9e6f916a-8f7c-4088-9ab7-6c97bd221ae6",
+      "only": [
         "8291ea48-1880-45dc-8a27-6632e2fe1a02",
-        "9886fdf7-a3df-4fcc-8b28-1fa0c6f7668a",
-        "6248ae0f-3157-4634-ae95-014640d50e0b"
+        "9886fdf7-a3df-4fcc-8b28-1fa0c6f7668a"
       ],
       "settings": {
         "output_path": "./fab"

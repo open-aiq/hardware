@@ -4,7 +4,8 @@ Proto2 is the board we use to get Open AIQ off the breadboard. The OLED sits
 top-left with three buttons under it, the sensors take the middle, and your
 ESP32-S3 devkit plugs into two sockets on the right with its antenna past the
 top edge. It's single-sided (all copper on the bottom) and everything is
-through-hole, so you can solder it by hand and get it made almost anywhere.
+through-hole, with unplated holes, so a local shop can make it, you can etch
+it at home, and you can solder it by hand.
 
 ![Proto2, 3D render](renders/proto2-iso.png)
 
@@ -16,14 +17,13 @@ through-hole, so you can solder it by hand and get it made almost anywhere.
 
 | Ref | Part | Wiring |
 | --- | --- | --- |
-| U1 | ESP32-S3-DevKitC-1, or a pin-compatible clone, on two 1×22 sockets 25.4 mm (1.0 in) apart | All signals are on the left header. USB faces the bottom edge |
-| J1 | PMS5003 particulate sensor, through its 1.25 mm to 2.54 mm adapter board, on a 1×8 socket | `VCC GND SET RX TX RST NC NC`, the sensor's own order, printed on the board. 5 V, UART on GPIO 18 (ESP TX) / 17 (ESP RX), SET on GPIO 8, RESET on GPIO 16 |
+| J4, J5 | ESP32-S3-DevKitC-1, or a pin-compatible clone, on two 1×22 sockets 25.4 mm (1.0 in) apart: J4 takes devkit pins 1–22, J5 pins 23–44. The schematic shows the devkit itself as U1 | All signals are on the left header (J4). USB faces the bottom edge |
+| J1 | PMS5003 particulate sensor, through its 4-wire cable, on a 1×4 socket | `TX RX VCC GND` from left to right, the cable's order, printed on the board. TX and RX are the sensor's, so TX goes to GPIO 17 (ESP RX) and RX to GPIO 18 (ESP TX). 5 V. SET and RESET aren't wired |
 | J2 | 1.3 in SH1106 128×64 I2C OLED module, 4-pin socket | I2C, `GND VCC SCL SDA` from left to right, the order printed on the module's front. The module lies flat over the OLED box |
-| J3 | SHT30 breakout with 6 pins, on a 1×4 and a 1×2 socket 10.16 mm apart | I2C, `SDA SCL GND VIN` from left to right on the silkscreen. The 2 pins on the far edge sit opposite SCL and SDA and are for support only |
+| J3, J6 | SHT30 breakout with 6 pins, on a 1×4 socket (J3) and a 1×2 socket (J6) 10.16 mm apart | I2C on J3, `SDA SCL GND VIN` from left to right on the silkscreen. J6 holds the 2 pins on the far edge, opposite SCL and SDA, for support only |
 | SW1, SW2, SW3 | Right, left and pair buttons, 6 × 6 mm 4-leg tactile switches | GPIO 15, GPIO 6 and GPIO 7, active-low |
 | R1, R2 | 4.7 kΩ I2C pull-ups | SDA (GPIO 5), SCL (GPIO 4) to 3.3 V, under the OLED module |
-| R3, R4 | 10 kΩ pull-ups | SET (R3) and RESET (R4), so the PMS5003 stays awake and out of reset unless the firmware says otherwise. In the `PMS PULL-UPS` box, between the SHT30 and J1 |
-| C1–C4 | Bulk and decoupling capacitors | 47 µF + 100 nF on 5 V (C1, C2) and 10 µF + 100 nF on 3.3 V (C3, C4). All four sit under the devkit, between its sockets, so they need to be low-profile parts |
+| C1–C4 | Bulk and decoupling capacitors | 47 µF + 100 nF on 5 V (C1, C2) and 10 µF + 100 nF on 3.3 V (C3, C4). All four lie flat under the devkit, in the middle of the space between its sockets |
 
 The pins match [`src/board.rs`](https://github.com/open-aiq/device/blob/main/src/board.rs)
 in open-aiq/device. Rev B moved several pins so every trace fits on one side of
@@ -34,16 +34,18 @@ about:
 
 - **SW3 Pair (GPIO 7)** starts BLE pairing with the phone app when you hold it
   for 3 s. Holding left and right together does the same.
-- **SET and RESET** have pull-ups that keep the sensor running while the
-  devkit boots. The firmware drives SET low to rest the sensor between
-  readings, and pulses RESET low to restart it if a whole burst brings no
-  readings.
+- **The PMS5003 sleeps and wakes by UART command.** The 4-wire cable leaves
+  SET and RESET unconnected, which the sensor's manual says is fine: it pulls
+  them up itself, so it runs. The firmware sends the manual's sleep and wake
+  commands between readings instead of driving a pin, so GPIO 8 and 16 are
+  free. There's no reset command, so a sensor that hangs needs a power cycle.
 
-Everything to print is in [`proto2.pdf`](proto2.pdf): the schematic, the bottom
-copper (mirrored, as you'd see it from below), a drill map of every hole by
-size, and three 3D renders (an angled view, the top and the bottom). Every page
-is A4. The bottom copper is 1:1, so print it at 100% ("Actual size", not "Fit to
-page") and the board outline measures 147 × 75.5 mm. You can lay your parts on
+Everything to print is in [`proto2.pdf`](proto2.pdf): the schematic, the
+bottom copper (mirrored, as you'd see it from below), a drill map of every hole
+by size, a one-page hand assembly guide, the BOM, the placement (CPL) list, and
+three 3D renders (an angled view, the top and the bottom). Every page is A4.
+The bottom copper is 1:1, so print it at 100% ("Actual size", not "Fit to
+page") and the board outline measures 145.5 × 68 mm. You can lay your parts on
 the paper to check the fit before you order. The drill map is scaled to fit.
 Wondering why a part is there, or why it has that value?
 [`proto2-rationale.pdf`](proto2-rationale.pdf) walks through every component and
@@ -51,7 +53,27 @@ pin choice, with references to the datasheets.
 
 ## Revisions
 
-- **Rev H** (this one) is about home etching and reading the board.
+- **Rev I** (this one) takes the PMS5003 on a 4-wire cable (`TX RX VCC GND`)
+  instead of the 8-pin adapter. J1 becomes a 1×4 socket with TX and RX
+  sitting where the GPIO 17 and 18 tracks already ended, and the 5 V feed
+  steps over the GND pin to reach VCC. SET and RESET aren't wired any more,
+  so R3, R4, their `PMS PULL-UPS` box and the GPIO 8 and 16 tracks are gone;
+  the firmware sleeps and wakes the sensor with UART commands. A new
+  `No ground finger` area keeps the fill out of the old RESET track's path.
+  The board also shrinks to 145.5 × 68 mm, 1.5 mm narrower and 7.5 mm
+  shorter. The 3.3 V track along the bottom moves up under SDA and SCL
+  (which move up about 1 mm too), keeping a 1.0 mm gap between them, so the
+  bottom edge follows. The mounting holes move with the corners, and the
+  bottom scene shrinks to fit the free space under J1.
+  It's made one way now: single-sided with unplated holes (the plated,
+  2-layer set is gone). C1–C4 move down into the middle of the space between
+  the devkit sockets and lie flat, legs side by side, so they rest on the
+  board instead of standing under the devkit. The `Open AIR IQ` lettering
+  leaves the bottom copper to make room, and the bottom silkscreen gains a QR
+  code to [docs.air-iq.net/proto2](https://docs.air-iq.net/proto2/), with a
+  note inviting you to help build it.
+  Flash firmware that uses the commands before you plug the sensor in.
+- **Rev H** is about home etching and reading the board.
   The schematic now joins every part with real wires; only ground, 3.3 V and
   5 V use power symbols. Signal tracks widen from 1.0 to 1.2 mm and the 5 V
   feed to 2.0 mm, and tracks that run side by side keep an even gap. The
@@ -128,12 +150,11 @@ pin choice, with references to the datasheets.
   (4 breadboard holes) from the 4-pin row, opposite SCL and SDA, as measured on
   our breakout. If yours differs, the 4-pin row still works, and you can leave
   the 1×2 socket out.
-- **The PMS5003 plugs in through its adapter board.** The sensor's cable goes
-  into the adapter, and the adapter's 8 pins go into J1. It lies flat over the
-  dashed area beside J1, on whichever side its pins come out. We sized that
-  area from a photo (an adapter of about 22 × 10 mm), so measure yours first.
-  Check that the adapter's pin labels match `VCC GND SET RX TX RST NC NC` on
-  the board before you plug it in.
+- **The PMS5003 plugs in through its 4-wire cable.** Its 2.54 mm end goes
+  into J1, reading `TX RX VCC GND` from left to right like the silkscreen. If
+  your cable ends in a small adapter board, it can lie flat over the dashed
+  area around J1. If your cable ends in female pins instead, fit a 1×4 male
+  header in J1's holes; the footprint is the same.
 - **The PMS5003 sits on the marked bed.** Fix it with four M2 self-tapping
   screws from below, through the holes in the bed's corners and into the
   sensor's case, or stick it down with double-sided foam tape. Keep the vents
@@ -141,9 +162,18 @@ pin choice, with references to the datasheets.
   bottom copper stays clear around each hole, so a screw head can't touch a
   track. Its case is metal, but there's no copper on top, so it can't short
   anything.
+- **The capacitors lie flat.** C1–C4 sit between the devkit sockets with
+  their legs side by side. Push the legs through, then fold the body down
+  over the outline beside its pads, so the devkit clears it. On C1 and C3 the
+  long leg goes in the square pad by the `+`, and the can's stripe sits over
+  the striped side of the outline.
+- **The QR code on the bottom** opens
+  [docs.air-iq.net/proto2](https://docs.air-iq.net/proto2/), with what the
+  board does, its revisions and how to help. It's silkscreen, so a board you
+  etch yourself won't have it.
 - **The devkit's antenna hangs off the top edge.** That's on purpose: copper
   under an antenna weakens WiFi and BLE, so the ground fill also stops short of
-  that end. Its USB end sits about 12 mm in from the bottom edge, with nothing
+  that end. Its USB end sits about 7 mm in from the bottom edge, with nothing
   tall underneath, so a USB plug still fits.
 - **R8 modules use GPIO 35, 36 and 37 for PSRAM.** Proto2 leaves them
   unconnected, so keep it that way if you add anything.
@@ -155,11 +185,11 @@ pin choice, with references to the datasheets.
 
 A few quick checks before you trust the readings:
 
-1. **Check the PMS5003 cable and adapter with a multimeter first.** Pin 1 on
-   the sensor should reach the adapter pin that sits in J1's `VCC`. Some cables
-   and adapters come wired in reverse. That won't damage anything, but the
+1. **Check the PMS5003 cable with a multimeter first.** Pin 1 on the sensor
+   (VCC) should reach the cable pin that sits in J1's `VCC`, and pin 2 (GND)
+   J1's `GND`. Some cables come wired in reverse. That won't damage anything, but the
    sensor stays silent.
-2. **Measure 5 V at J1 pin 1 with the fan running.** The PMS5003 needs at least
+2. **Measure 5 V at J1's `VCC` (pin 3) with the fan running.** The PMS5003 needs at least
    4.5 V. A long or thin USB cable, plus the devkit's own power path, can pull
    the 5V pin below what your charger supplies.
 3. **Read the serial log.** The I2C scan at boot should find `0x3C` (OLED) and
@@ -170,58 +200,78 @@ A few quick checks before you trust the readings:
 ## Parts
 
 You'll find the generated list in [`fab/proto2-bom.csv`](fab/proto2-bom.csv).
-To buy them:
+Every part has a manufacturer part number and an LCSC number, so you can buy
+them from LCSC, Mouser or DigiKey, or have a board house fit them. Any part with
+the same size, pitch and height works too.
 
-| Qty | Part | Notes |
-| --- | --- | --- |
-| 2 | 1×22 female header, 2.54 mm | Sockets for the devkit (U1) |
-| 2 | 1×4 female header, 2.54 mm | OLED (J2) and SHT30 (J3) |
-| 1 | 1×2 female header, 2.54 mm | SHT30's far-edge pins (J3) |
-| 1 | 1×8 female header, 2.54 mm | PMS5003 adapter board (J1). The adapter usually comes with the sensor's cable |
-| 3 | 6 × 6 mm through-hole tactile switch, 4-leg (for example Omron B3F-1000) | SW1, SW2, SW3 |
-| 2 | 4.7 kΩ resistor, 1/4 W axial | R1, R2. These sit on a 7.62 mm pitch, so bend the legs close to the body |
-| 2 | 10 kΩ resistor, 1/4 W axial | R3, R4, also on a 7.62 mm pitch |
-| 1 | 47 µF electrolytic, ≥10 V, 6.3 mm radial, 2.5 mm pitch, low-profile (about 5 mm tall, 8 mm at most) | C1. It sits under the devkit, so the usual 11 mm part is too tall |
-| 1 | 10 µF electrolytic, ≥10 V, 5 mm radial, 2 mm pitch, low-profile (about 5 mm tall, 8 mm at most) | C3, also under the devkit |
-| 2 | 100 nF ceramic, 5 mm pitch, 8 mm tall at most | C2, C4, also under the devkit |
-| 4 | M2 self-tapping screw, pan head, about 5 mm long | Optional, to hold the PMS5003 (H5). Use one short enough not to reach inside the sensor |
+| Qty | Part | Manufacturer part | LCSC | Notes |
+| --- | --- | --- | --- | --- |
+| 2 | 1×22 female header, 2.54 mm, 8.5 mm tall | Megastar ZX-PM2.54-1-22PY | C7499337 | Sockets for the devkit (J4, J5) |
+| 3 | 1×4 female header, 2.54 mm, 8.5 mm tall | Megastar ZX-PM2.54-1-4PY | C7499324 | OLED (J2), SHT30 (J3) and the PMS5003 cable (J1) |
+| 1 | 1×2 female header, 2.54 mm, 8.5 mm tall | Megastar ZX-PM2.54-1-2PY | C7499322 | SHT30's far-edge pins (J6) |
+| 3 | 6 × 6 mm through-hole tactile switch, 4-leg, 4.3 mm tall | Omron B3F-1000 | C93157 | SW1, SW2, SW3 |
+| 2 | 4.7 kΩ ±1% metal film resistor, 1/4 W axial | YAGEO MFR-25FTE52-4K7 | C173023 | R1, R2. These sit on a 7.62 mm pitch, so bend the legs close to the body |
+| 1 | 47 µF 25 V electrolytic, 6.3 mm radial, 2.5 mm pitch, 5 mm tall | CX KF476M025E05RR0VH2FP0 | C45704 | C1. It lies flat under the devkit, so keep it 6.3 mm across at most |
+| 1 | 10 µF 50 V electrolytic, 5 mm radial, 2 mm pitch, 7 mm tall | CX KS106M050D07RR0VH2FP0 | C45669 | C3, also lying flat under the devkit |
+| 2 | 100 nF 50 V X7R ceramic, 5 mm pitch | Murata RDER71H104K0M1H03A | C527620 | C2, C4, also lying flat under the devkit |
+| 4 | M2 self-tapping screw, pan head, about 5 mm long | | | Optional, to hold the PMS5003 (H5). Use one short enough not to reach inside the sensor |
+
+The devkit, PMS5003 (with its 4-wire cable), SHT30 breakout and OLED
+module aren't on the list: you buy them separately and plug them in.
 
 ## Ordering
 
-[`fab/proto2-gerbers.zip`](fab/proto2-gerbers.zip) holds the Gerbers and
-Excellon drill files: bottom copper, bottom solder mask, top and bottom
-silkscreen, the outline and drills. Upload it to JLCPCB, PCBWay or a local shop as it is. We
-haven't placed an order yet, so treat these settings as our first guess:
+[`fab/proto2-gerbers.zip`](fab/proto2-gerbers.zip) holds the Gerbers and the
+drill file: bottom copper, bottom solder mask, top and bottom silkscreen, the
+outline, and every hole in one unplated drill file. Upload it to a local shop,
+JLCPCB or PCBWay as it is, and order it as a 1-layer board. If you're etching
+or milling it yourself, the bottom copper page in `proto2.pdf` and the drill
+file are all you need; you'll go without the silkscreen and the QR code.
+
+Unplated pads are held only by their glue to the board, so they lift more
+easily than plated ones. Heat each joint briefly, and try not to resolder a
+pad more than you need to.
+
+We haven't placed an order yet, so treat these settings as our first guess:
 
 | Setting | Value |
 | --- | --- |
-| Size | 147 × 75.5 mm |
-| Layers | Order it as 2-layer: you get plated holes, and the top side has pads only. The copper is all on the bottom, so a 1-layer order or home etching works too; unplated pads just lift more easily if you resolder them |
+| Size | 145.5 × 68 mm |
+| Layers | 1 (bottom copper only), holes unplated |
 | Thickness | 1.6 mm |
 | Min track / clearance | 1.2 / 0.4 mm (power 1.5 mm, the 5 V feed 2.0 mm), with 0.9 mm around the ground fill, which is never narrower than 1 mm |
 | Min hole | 0.8 mm (resistor and capacitor leads), plus four 2.2 mm holes for the PMS5003 screws; no vias |
 | Surface finish | HASL is fine |
 
-Every part is through-hole, so there's no pick-and-place file.
+Every part is through-hole, so you can solder it yourself; the hand assembly
+guide in the PDF walks you through it. To buy the parts, the BOMs carry their
+LCSC and manufacturer part numbers:
+[`fab/proto2-jlc-bom.csv`](fab/proto2-jlc-bom.csv) (by LCSC number) and
+[`fab/proto2-pcbway-bom.csv`](fab/proto2-pcbway-bom.csv) (by manufacturer part
+number). [`fab/proto2-jlc-cpl.csv`](fab/proto2-jlc-cpl.csv) is the placement
+file, if a board house offers through-hole assembly on a 1-layer board; we
+haven't tried that, so check with them first. If a part runs out, pick
+another with the same size, pitch and height.
 
 ## Editing
 
 Open `proto2.kicad_pro` in KiCad 10. The repo's [Working in KiCad](../../README.md#working-in-kicad)
 guide covers libraries, rules and outputs. These are ours, in [`lib/`](../../lib):
 
-- the devkit, SHT30 and PMS5003 adapter socket footprints, and the PMS5003
+- the devkit, SHT30 and PMS5003 cable socket footprints, and the PMS5003
   mounting holes (a board-only footprint with a copper keep-out for each
-  screw head). The devkit socket marks its
-  GND pins and its two 3V3 pins as joined inside the devkit (KiCad *jumper pad
+  screw head). Each socket row is its own footprint, so every reference is one
+  part a board house can fit: the devkit's left and right rows (J4, J5) and the
+  SHT30's 1×4 and 1×2 (J3, J6). The devkit sockets mark the devkit's GND pins
+  and its two 3V3 pins as joined inside the devkit (KiCad *jumper pad
   groups*), so they don't need tracks between them
+- the LCSC, Manufacturer and MPN fields on every part, which
+  `scripts/export.sh` turns into the JLCPCB and PCBWay BOMs
+- the lying-down capacitor footprints for C1–C4, adapted from KiCad's radial
+  and disc ones, with the body drawn beside the pads and the 3D model laid flat
 - the arrow and phone-with-Bluetooth icons under the buttons, which are
   board-only footprints you can move
 - the sensor symbols
-
-The `Open AIR IQ` text on the bottom copper uses
-[Orbitron](https://fonts.google.com/specimen/Orbitron), a free font. Install it
-before you edit the board, or KiCad swaps in its own font and the letters
-change shape. The Gerbers already carry the right outlines.
 
 To refresh the outputs, run `proto2.kicad_jobset` in KiCad, or this from the repo
 root:
@@ -233,6 +283,9 @@ scripts/export.sh pcb/proto2
 Both stop if ERC or DRC finds a problem. The home-etching rules (1.2 mm
 signals, 1.5 mm power, no ground neck under 1 mm) live in
 [`proto2.kicad_dru`](proto2.kicad_dru), next to the board.
+
+The hand assembly guide is `proto2-guide.typ`; `scripts/export.sh` builds it
+into the PDF, so update it if you change a part.
 
 The design rationale is written in [Typst](https://typst.app). If you change a
 part, update `proto2-rationale.typ` too, then rebuild the PDF from this folder:

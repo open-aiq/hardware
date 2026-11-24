@@ -1,0 +1,9 @@
+Item #,Designator,Qty,Manufacturer,Mfg Part #,Description / Value,Package/Footprint,Type,Your Instructions / Notes
+1,C1,1,CX Dongguan Chengxing Elec,KF476M025E05RR0VH2FP0,"47 µF 25 V electrolytic, 6.3 × 5 mm radial, 2.5 mm pitch",CP_Radial_D6.3mm_L5.0mm_P2.50mm_Lying,THT,LCSC C45704 is an exact match
+2,"C2,C4",2,Murata,RDER71H104K0M1H03A,"100 nF 50 V X7R ceramic, 5 mm pitch",C_Disc_D5.0mm_W2.5mm_P5.00mm_Lying,THT,LCSC C527620 is an exact match
+3,C3,1,CX Dongguan Chengxing Elec,KS106M050D07RR0VH2FP0,"10 µF 50 V electrolytic, 5 × 7 mm radial, 2 mm pitch",CP_Radial_D5.0mm_L7.0mm_P2.00mm_Lying,THT,LCSC C45669 is an exact match
+4,"J1,J2,J3",3,Megastar,ZX-PM2.54-1-4PY,"1×4 female header, 2.54 mm, 8.5 mm tall",PMS5003_Cable_Socket_1x04 / PinSocket_1x04_P2.54mm_Vertical / SHT30_Module_Socket_1x04,THT,LCSC C7499324 is an exact match
+5,"J4,J5",2,Megastar,ZX-PM2.54-1-22PY,"1×22 female header, 2.54 mm, 8.5 mm tall",ESP32-S3-DevKitC-1_Socket_Left / ESP32-S3-DevKitC-1_Socket_Right,THT,LCSC C7499337 is an exact match
+6,J6,1,Megastar,ZX-PM2.54-1-2PY,"1×2 female header, 2.54 mm, 8.5 mm tall",SHT30_Module_Socket_1x02,THT,LCSC C7499322 is an exact match
+7,"R1,R2",2,YAGEO,MFR-25FTE52-4K7,"4.7 kΩ ±1% metal film resistor, 1/4 W axial",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,THT,LCSC C173023 is an exact match
+8,"SW1,SW2,SW3",3,Omron,B3F-1000,"6 × 6 mm THT tactile switch, 4.3 mm tall",SW_PUSH_6mm,THT,LCSC C93157 is an exact match

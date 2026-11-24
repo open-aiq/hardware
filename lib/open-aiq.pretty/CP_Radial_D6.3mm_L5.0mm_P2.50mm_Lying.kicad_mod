@@ -1,0 +1,166 @@
+(footprint "CP_Radial_D6.3mm_L5.0mm_P2.50mm_Lying"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "Radial electrolytic capacitor laid flat on the board: leads bent 90 degrees so the body lies along +Y beside its pads. Diameter 6.3 mm, length 5 mm, pin pitch 2.50 mm. Adapted from KiCad's CP_Radial_D6.3mm_P2.50mm.")
+	(tags "CP Radial lying flat horizontal electrolytic capacitor diameter 6.3mm pitch 2.50mm")
+	(property "Reference" "REF**"
+		(at 1.25 4.3 0)
+		(layer "F.SilkS")
+		(uuid "11821bdf-59f6-4d04-8b4d-fd1f4e8d84dc")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "CP_Radial_D6.3mm_L5.0mm_P2.50mm_Lying"
+		(at 1.25 8.3 0)
+		(layer "F.Fab")
+		(uuid "d629bbd5-942c-4e2c-b166-9207fbc04487")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_rect
+		(start -1.9 1.8)
+		(end 4.4 6.8)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "a8ff6ae1-ce88-485d-a4a3-72eec45c5647")
+	)
+	(fp_line
+		(start 0 0)
+		(end 0 1.8)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "f8382399-8eb5-4857-9ba8-ea872bedbf37")
+	)
+	(fp_line
+		(start 2.5 0)
+		(end 2.5 1.8)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "f9defb8a-8ddb-439f-8223-69ab10bb01a2")
+	)
+	(fp_rect
+		(start 3.14 1.8)
+		(end 4.4 6.8)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "e39ba2c6-afb2-4cef-acab-3dd73cd9fd46")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 1.25 4.3 0)
+		(layer "F.Fab")
+		(uuid "60a609d2-0871-4726-9a16-b9d82e9372b1")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_rect
+		(start -2.02 1.68)
+		(end 4.52 6.92)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "2db514f9-8d78-4e68-a644-db95f8478606")
+	)
+	(fp_line
+		(start 3.14 1.68)
+		(end 3.14 6.92)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "1f838fa7-d1e1-44c2-8418-3779761761cf")
+	)
+	(fp_line
+		(start -3.2 0)
+		(end -2.4 0)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "6e4270d7-3810-47cb-b96c-51c3415bf438")
+	)
+	(fp_line
+		(start -2.8 -0.4)
+		(end -2.8 0.4)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "0ce3bf1e-10f4-43fd-9c97-990bb6405176")
+	)
+	(fp_rect
+		(start -3.7 -1.3)
+		(end 5.02 7.42)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "d8b66918-9d9b-4fe7-a13d-b51619e45d58")
+	)
+	(pad "1" thru_hole roundrect
+		(at 0 0)
+		(size 1.6 1.6)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(roundrect_rratio 0.15625)
+		(uuid "dce11ca3-1c92-4c78-8ff2-b207b9be59d8")
+	)
+	(pad "2" thru_hole circle
+		(at 2.5 0)
+		(size 1.6 1.6)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "92289a08-b28c-4ec8-8ba8-3c4548e0b754")
+	)
+	(model "${KICAD10_3DMODEL_DIR}/Capacitor_THT.3dshapes/CP_Radial_D6.3mm_P2.50mm.step"
+		(offset
+			(xyz 0 -1.8 3.15)
+		)
+		(scale
+			(xyz 1 1 0.85)
+		)
+		(rotate
+			(xyz -90 0 0)
+		)
+	)
+	(embedded_fonts no)
+)

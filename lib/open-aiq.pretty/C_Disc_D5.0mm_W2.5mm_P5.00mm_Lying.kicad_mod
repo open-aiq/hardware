@@ -1,0 +1,124 @@
+(footprint "C_Disc_D5.0mm_W2.5mm_P5.00mm_Lying"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "Ceramic disc capacitor laid flat on the board: leads bent 90 degrees so the disc lies along +Y beside its pads. Diameter 5 mm, thickness 2.5 mm, pin pitch 5.00 mm. Adapted from KiCad's C_Disc_D5.0mm_W2.5mm_P5.00mm.")
+	(tags "C Disc lying flat horizontal ceramic capacitor pitch 5.00mm")
+	(property "Reference" "REF**"
+		(at 2.5 3.7 0)
+		(layer "F.SilkS")
+		(uuid "407e11ca-0a5f-4c02-b847-ba1737c2042d")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "C_Disc_D5.0mm_W2.5mm_P5.00mm_Lying"
+		(at 2.5 7.7 0)
+		(layer "F.Fab")
+		(uuid "9357dd43-440d-4219-86a0-13266f07432d")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_circle
+		(center 2.5 3.7)
+		(end 5 3.7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "36bb13b6-6c23-4d73-acfe-6d0fbfd387fd")
+	)
+	(fp_line
+		(start 0 0)
+		(end 0 3.7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "20864571-17b3-4ebe-aed7-e8e4e60305cd")
+	)
+	(fp_line
+		(start 5 0)
+		(end 5 3.7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "b1d39da6-ff3f-452e-b173-741559492f58")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 2.5 3.7 0)
+		(layer "F.Fab")
+		(uuid "0f7890bd-faf9-438c-8d7a-37ef3fcbd4ac")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_circle
+		(center 2.5 3.7)
+		(end 5.12 3.7)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "44ac8203-7552-45a2-89d0-716da2963f23")
+	)
+	(fp_rect
+		(start -1.5 -1.5)
+		(end 6.5 6.82)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "08e9c421-f9fb-4226-94e4-d10669d9790d")
+	)
+	(pad "1" thru_hole circle
+		(at 0 0)
+		(size 2 2)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "e7324850-2f86-45f7-bd10-3f6d5666f1f4")
+	)
+	(pad "2" thru_hole circle
+		(at 5 0)
+		(size 2 2)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "ddfed2f9-9a18-4801-89c7-6a2b7f7b42d5")
+	)
+	(model "${KICAD10_3DMODEL_DIR}/Capacitor_THT.3dshapes/C_Disc_D5.0mm_W2.5mm_P5.00mm.step"
+		(offset
+			(xyz 0 -1.2 1.25)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 0 0)
+		)
+	)
+	(embedded_fonts no)
+)
