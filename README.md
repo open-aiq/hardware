@@ -34,13 +34,14 @@ as you would any other design.
   with zero ERC and DRC messages. If you see one, it's new.
 - **Outputs come from a jobset.** Open `<board>.kicad_jobset` from the project
   window (or *File → Jobsets*) and run it. It checks ERC and DRC, then writes the
-  schematic PDF, the bottom copper PDF, Gerbers, drill files, the BOM and, for
-  the SMT board, placement and JLCPCB BOM files.
+  schematic PDF, the copper PDFs, Gerbers, drill files, the BOM and the
+  placement file (plus a JLCPCB BOM for the SMT board).
 - **The command line runs the same jobset.** From the repo root,
   `scripts/export.sh pcb/<board>` runs it with `kicad-cli`, then adds what KiCad
   doesn't make on its own: a zipped Gerber set, a JLCPCB-format placement file,
-  3D renders and one printable PDF. That PDF has the schematic, the bottom
-  copper, a drill map and the three renders, nothing else. Merging it needs
+  3D renders and a printable PDF. That PDF has the
+  schematic, the copper, a drill map, the board's hand assembly guide (if it
+  has one), the BOM and placement tables, and the three renders. Merging it needs
   `qpdf` or Python's `pypdf`, and the script checks for one before it starts.
 
 Please commit your KiCad edits and the regenerated outputs together, so the PDFs

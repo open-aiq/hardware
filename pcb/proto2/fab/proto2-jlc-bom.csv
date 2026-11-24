@@ -1,0 +1,9 @@
+Comment,Designator,Footprint,LCSC Part #
+"47 µF 25 V electrolytic, 6.3 × 5 mm radial, 2.5 mm pitch",C1,CP_Radial_D6.3mm_L5.0mm_P2.50mm_Lying,C45704
+"100 nF 50 V X7R ceramic, 5 mm pitch","C2,C4",C_Disc_D5.0mm_W2.5mm_P5.00mm_Lying,C527620
+"10 µF 50 V electrolytic, 5 × 7 mm radial, 2 mm pitch",C3,CP_Radial_D5.0mm_L7.0mm_P2.00mm_Lying,C45669
+"1×4 female header, 2.54 mm, 8.5 mm tall","J1,J2,J3",PMS5003_Cable_Socket_1x04 / PinSocket_1x04_P2.54mm_Vertical / SHT30_Module_Socket_1x04,C7499324
+"1×22 female header, 2.54 mm, 8.5 mm tall","J4,J5",ESP32-S3-DevKitC-1_Socket_Left / ESP32-S3-DevKitC-1_Socket_Right,C7499337
+"1×2 female header, 2.54 mm, 8.5 mm tall",J6,SHT30_Module_Socket_1x02,C7499322
+"4.7 kΩ ±1% metal film resistor, 1/4 W axial","R1,R2",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,C173023
+"6 × 6 mm THT tactile switch, 4.3 mm tall","SW1,SW2,SW3",SW_PUSH_6mm,C93157
